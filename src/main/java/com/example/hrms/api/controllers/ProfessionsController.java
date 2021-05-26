@@ -1,14 +1,14 @@
 package com.example.hrms.api.controllers;
 
 
-import java.util.List;
-
 import com.example.hrms.business.abstracts.ProfessionService;
 import com.example.hrms.core.concrete.DataResult;
 import com.example.hrms.core.concrete.Result;
 import com.example.hrms.entities.concrete.Profession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController

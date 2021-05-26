@@ -1,15 +1,17 @@
 package com.example.hrms.entities.abstracts;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name="users")
-@AllArgsConstructor
+@Table(name = "users")
 @NoArgsConstructor
 public class User {
     @Id
@@ -23,6 +25,6 @@ public class User {
     @Column(name = "password")
     String password;
 
+    @Transient
     String controlPassword;
-
-   }
+}

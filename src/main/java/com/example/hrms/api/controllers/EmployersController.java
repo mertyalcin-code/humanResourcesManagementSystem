@@ -4,14 +4,10 @@ package com.example.hrms.api.controllers;
 import com.example.hrms.business.abstracts.EmployerService;
 import com.example.hrms.core.concrete.DataResult;
 import com.example.hrms.core.concrete.Result;
-import com.example.hrms.entities.abstracts.User;
-import com.example.hrms.entities.concrete.Employee;
 import com.example.hrms.entities.concrete.Employer;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.crypto.Data;
 import java.util.List;
 
 @RestController

@@ -9,3 +9,5 @@ Profession added: Teacher 2021-05-26 17:43:14.513 logType: addProfession
 All professions listed 2021-05-26 17:44:27.11 logType: getAllProfessions
 Mail Activation: sample2@google.com  2021-05-26 19:19:10.785 logType: mailActivation
 Mail Activation: sample2@google.com  2021-05-26 19:19:15.515 logType: mailActivation
+All employees listed 2021-05-26 19:49:31.901 logType: getAllEmployees
+Registration: sample30@gmail.com string string 2021-05-26 20:25:01.687 logType: registration

@@ -14,9 +14,9 @@ import javax.persistence.Table;
 @Table(name="system_users")
 @PrimaryKeyJoinColumn(name="user_id", referencedColumnName="id")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class SystemUser extends User {
+
 
     @Column(name="position")
     String position;

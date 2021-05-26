@@ -1,17 +1,16 @@
 package com.example.hrms.api.controllers;
 
 import com.example.hrms.business.abstracts.UserService;
-import com.example.hrms.business.concrete.ActivationMailSender;
 import com.example.hrms.core.concrete.DataResult;
 import com.example.hrms.core.concrete.Result;
 import com.example.hrms.entities.abstracts.User;
-import com.example.hrms.entities.concrete.Profession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Random;
 
 @RestController
 @RequestMapping("/api/users")

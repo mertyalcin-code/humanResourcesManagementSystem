@@ -1,6 +1,8 @@
 package com.example.hrms.entities.concrete;
 
 import com.example.hrms.entities.abstracts.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name="employers")
 @PrimaryKeyJoinColumn(name="user_id", referencedColumnName="id")
+@JsonIgnoreProperties("id")
 public class Employer extends User {
 
 
@@ -27,14 +30,5 @@ public class Employer extends User {
     private String phone;
 
     @Column(name="system_approval")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private boolean systemVerification=false; //swagger da çıkmasın ???
-
-
-    public Employer(int userId, String email, String password, String controlPassword, String companyName, String website, String phone) {
-        super(userId, email, password, controlPassword);
-        this.companyName = companyName;
-        this.website = website;
-        this.phone = phone;
-    }
 }
