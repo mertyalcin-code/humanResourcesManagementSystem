@@ -18,7 +18,7 @@ public interface EmployeeService {
    //updateler eklemek lazım
 
     DataResult<Employee> getById(int id);
-
+    DataResult<Employee> getByEmail(String email);
     Result mailActivation(String activationCode);
 
 

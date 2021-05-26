@@ -15,33 +15,28 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/professions")
 public class ProfessionsController {
 
-    private ProfessionService professionService;
+    private final ProfessionService professionService;
 
     @Autowired
     public ProfessionsController(ProfessionService professionService) {
-        super();
         this.professionService = professionService;
     }
- 
+
     @GetMapping("/getall")
-    public DataResult<List<Profession>>  getAll(){
+    public DataResult<List<Profession>> getAll() {
         return professionService.getAll();
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody Profession profession){
+    public Result add(@RequestBody Profession profession) {
         return this.professionService.add(profession);
     }
 
     @GetMapping("/{id}")
-    public DataResult<Profession> getById(@PathVariable int id){
+    public DataResult<Profession> getById(@PathVariable int id) {
 
         return professionService.getById(id);
     }
-
-
-
-
 
 
 }

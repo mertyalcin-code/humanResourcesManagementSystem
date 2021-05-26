@@ -23,53 +23,68 @@ public class EmployerManager implements EmployerService {
     ActivationMailSender activationMailSender;
     ActivationCodeDao activationCodeDao;
     UserManager userManager;
+    Loggers loggers;
 
-    @Autowired
-    public EmployerManager(EmployerDao employerDao, UserCheckManager userCheckManager, ActivationMailSender activationMailSender, ActivationCodeDao activationCodeDao, UserManager userManager) {
+    public EmployerManager(EmployerDao employerDao, UserCheckManager userCheckManager,
+                           ActivationMailSender activationMailSender, ActivationCodeDao activationCodeDao, UserManager userManager, Loggers loggers) {
         this.employerDao = employerDao;
         this.userCheckManager = userCheckManager;
         this.activationMailSender = activationMailSender;
         this.activationCodeDao = activationCodeDao;
         this.userManager = userManager;
+        this.loggers = loggers;
     }
 
     @Override
     public DataResult<List<Employer>> getAll() {
-        return
-                new SuccessDataResult<>(employerDao.findAll(),employerDao.findAll().size()+" people listed");
+        try{
+            loggers.log("All employers listed","getAllEmployers");
+            return new SuccessDataResult<>( this.employerDao.findAll(),employerDao.findAll().size()+" people listed");
+
+        }
+        catch (Exception exception){
+            return new ErrorDataResult<>(exception.getMessage());
+        }
     }
 
     @Override
     public Result add(Employer employer) {
-        if(userCheckManager.checkMailAlreadyExist(employer.getEmail())){
+        if (userCheckManager.checkMailAlreadyExist(employer.getEmail())) {
             return new ErrorResult("Previously registered with this email");
         }
-        if(!userCheckManager.checkMailRegular(employer.getEmail())){
-            return new ErrorResult("Incorrect E-mail");                    }
-        if(!userCheckManager.checkEmailFromWebSite(employer.getEmail(),employer.getWebsite())){
+        if (!userCheckManager.checkMailRegular(employer.getEmail())) {
+            return new ErrorResult("Incorrect E-mail");
+        }
+        if (!userCheckManager.checkEmailFromWebSite(employer.getEmail(), employer.getWebsite())) {
             return new ErrorResult("You must register with your corporate e-mail");
         }
-        if(!userCheckManager.checkCompanyNameRegular(employer.getCompanyName())){
+        if (!userCheckManager.checkCompanyNameRegular(employer.getCompanyName())) {
             return new ErrorResult("Your company name is incorrect");
         }
-        if(!userCheckManager.checkPasswordRegular(employer.getPassword())){
+        if (!userCheckManager.checkPasswordRegular(employer.getPassword())) {
             return new ErrorResult("Password is incorrect");
         }
-        if (!userCheckManager.checkControlPasswordSame(employer.getPassword(),employer.getControlPassword())) {
+        if (!userCheckManager.checkControlPasswordSame(employer.getPassword(), employer.getControlPassword())) {
             return new ErrorResult("Your passwords do not match");
         }
-        // telefon numarası ekle
-        else{
+        if (!userCheckManager.checkWebsiteRegular(employer.getWebsite())) {
+            return new ErrorResult("Corporate Website is incorrect");
+        }
+        if (!userCheckManager.checkPhoneNumberCorrect(employer.getPhone())) {
+            return new ErrorResult("Phone number is incorrect");
+        } else {
             employerDao.save(employer);
             activationMailSender.SendActivationMail(employer);
+
             return new SuccessResult("Registration Successful: activation code has been sent to your e-mail address.");
         }
-            }
+    }
+
     @Override
     public DataResult<Employer> getById(int id) {
-        if(employerDao.findById(id).get()!=null){
-           return new SuccessDataResult<>(employerDao.findById(id).get(),"Listed");
-        }else{
+        if (employerDao.findById(id).get() != null) {
+            return new SuccessDataResult<>(employerDao.findById(id).get(), "Listed");
+        } else {
             return new ErrorDataResult<>("Not found");
         }
 

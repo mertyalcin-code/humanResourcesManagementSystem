@@ -13,16 +13,22 @@ import java.util.List;
 public class ProfessionManager implements ProfessionService {
 
     ProfessionDao professionDao;
+    Loggers loggers;
 
     @Autowired
-    public ProfessionManager(ProfessionDao professionDao) {
+    public ProfessionManager(ProfessionDao professionDao, Loggers loggers) {
         this.professionDao = professionDao;
+        this.loggers = loggers;
     }
+
+
+
 
     @Override
     public DataResult<List<Profession>> getAll() {
-
-        return new SuccessDataResult(professionDao.findAll(),professionDao.findAll().size()+" professions listed");
+        loggers.log("All professions listed","getAllProfessions");
+        return new SuccessDataResult(
+                professionDao.findAll(),professionDao.findAll().size()+" professions listed");
     }
 
     @Override
@@ -30,7 +36,7 @@ public class ProfessionManager implements ProfessionService {
 
         if(professionDao.findProfessionByTitle(profession.getTitle())==null){
             professionDao.save(profession);
-
+            loggers.log("Profession added: "+profession.getTitle(),"addProfession");
             return new SuccessResult("Succesfully Added: "+profession.getTitle()) ;
         }
         else{
@@ -39,8 +45,22 @@ public class ProfessionManager implements ProfessionService {
     }
 
     @Override
-    public DataResult<Profession> getById(int id) {
+    public Result delete(int id) {
+       Profession professionToDelete= professionDao.findById(id).get();
+       if(professionToDelete!=null){
+           professionDao.delete(professionToDelete);
+           loggers.log("Profession deleted: "+professionToDelete.getTitle(),"deleteProfession");
+           return new SuccessResult("Deleted: "+professionToDelete.getTitle());
 
+       }
+       else{
+           return new ErrorResult("Not found");
+       }
+    }
+
+    @Override
+    public DataResult<Profession> getById(int id) {
+        loggers.log("Professions getted by id: "+professionDao.findById(id).get().getTitle(),"getByIdProfession");
         return  new SuccessDataResult(professionDao.findById(id).get(),"Data Listed");
     }
 }

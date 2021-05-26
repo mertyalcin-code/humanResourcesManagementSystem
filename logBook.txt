@@ -1,2 +1,11 @@
 
 Registration: sample2@gmail.com Sample2 Sample2 2021-05-26 16:02:18.756
+Found by Id: mert1943992@gmail.com Mert Yalçın 2021-05-26 16:39:52.794
+Registration: sample101@gmail.com name name 2021-05-26 17:10:34.067 logType: registration
+Mail Activation: sample101@gmail.com  2021-05-26 17:10:45.253 logType: mailActivation
+Professions getted by id: Food Engineer 2021-05-26 17:42:40.124 logType: getByIdProfession
+Professions getted by id: Computer Engineer 2021-05-26 17:42:58.388 logType: getByIdProfession
+Profession added: Teacher 2021-05-26 17:43:14.513 logType: addProfession
+All professions listed 2021-05-26 17:44:27.11 logType: getAllProfessions
+Mail Activation: sample2@google.com  2021-05-26 19:19:10.785 logType: mailActivation
+Mail Activation: sample2@google.com  2021-05-26 19:19:15.515 logType: mailActivation

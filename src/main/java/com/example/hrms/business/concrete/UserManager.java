@@ -21,24 +21,30 @@ public class UserManager implements UserService{
 
     UserDao userDao;
     ActivationCodeDao activationCodeDao;
-
+    Loggers loggers;
     @Autowired
-    public UserManager(UserDao userDao, ActivationCodeDao activationCodeDao) {
+    public UserManager(UserDao userDao, ActivationCodeDao activationCodeDao, Loggers loggers) {
         this.userDao = userDao;
         this.activationCodeDao = activationCodeDao;
+        this.loggers = loggers;
     }
-
-
-
 
     @Override
     public DataResult<List<User>> getAll() {
 
-        return new SuccessDataResult<>(userDao.findAll(),userDao.findAll().size()+" people listed");
+        try{
+            loggers.log("All users listed","getAllUsers");
+            return new SuccessDataResult<>( this.userDao.findAll(),userDao.findAll().size()+" people listed");
+
+        }
+        catch (Exception exception){
+            return new ErrorDataResult<>(exception.getMessage());
+        }
     }
     @Override
     public DataResult<User> getById(int id) {
         if(userDao.findById(id).get()!=null){
+            loggers.log(userDao.findById(id).get(),"user found by id","getByIdUser");
             return new SuccessDataResult<>( userDao.findById(id).get(),"Listed");
         }
         else{
@@ -60,11 +66,18 @@ public class UserManager implements UserService{
     @Override
     public Result mailActivation(String activationCode) {
         ActivationCode code = activationCodeDao.getByActivationCode(activationCode);
-            if(code!=null){
+            if(code!=null && !code.isActive()){
                 code.setActivationDate(new Timestamp(System.currentTimeMillis()));
                 code.setActive(true);
                 activationCodeDao.save(code);
-                return new SuccessResult("Activation mail has been sent");
+
+                loggers.log(userDao.findById(code.getUserId()).get(),
+                        "Mail Activation: "+userDao.findById(code.getUserId()).get().getEmail()+" ",
+                        "mailActivation");
+                return new SuccessResult("Activation succesful");
+            }
+            else if (code!=null && code.isActive()){
+                return new ErrorResult("Already activated");
             }
             else{
                 return new ErrorResult("Something went wrong");

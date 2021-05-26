@@ -117,6 +117,13 @@ public class UserCheckManager implements UserCheckService { //daha kullanÄ±lmadÄ
     }
 
     @Override
+    public boolean checkPhoneNumberCorrect(String phoneNumber) {
+        Pattern pattern = Pattern.compile("^\\d{10}$");
+        Matcher matcher = pattern.matcher(phoneNumber);
+       return matcher.matches();
+    }
+
+    @Override
     public boolean checkMailAlreadyExist(String email) {
         List<User> allUsers = userDao.findAll();
         boolean userMatch = false;

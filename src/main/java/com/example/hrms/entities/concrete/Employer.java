@@ -2,6 +2,7 @@ package com.example.hrms.entities.concrete;
 
 import com.example.hrms.entities.abstracts.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,6 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name="employers")
 @PrimaryKeyJoinColumn(name="user_id", referencedColumnName="id")
@@ -27,7 +27,8 @@ public class Employer extends User {
     private String phone;
 
     @Column(name="system_approval")
-    private boolean systemVerification=false;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private boolean systemVerification=false; //swagger da çıkmasın ???
 
 
     public Employer(int userId, String email, String password, String controlPassword, String companyName, String website, String phone) {

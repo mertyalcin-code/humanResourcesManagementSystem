@@ -25,6 +25,8 @@ public interface UserCheckService {
 
     boolean checkCompanyNameRegular(String companyName);
 
+    boolean checkPhoneNumberCorrect(String phoneNumber);
+
 
 
 }

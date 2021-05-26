@@ -14,21 +14,24 @@ public class SystemUserManager implements SystemUserService {
 
     SystemUserDao systemUserDao;
     UserCheckManager userCheckManager;
+    Loggers loggers;
 
-
-    @Autowired
-    public SystemUserManager(SystemUserDao systemUserDao, UserCheckManager userCheckManager) {
+    public SystemUserManager(SystemUserDao systemUserDao, UserCheckManager userCheckManager, Loggers loggers) {
         this.systemUserDao = systemUserDao;
         this.userCheckManager = userCheckManager;
+        this.loggers = loggers;
     }
-
-
-
 
     @Override
     public DataResult<List<SystemUser>> getAll() {
-        return
-                new SuccessDataResult<>(systemUserDao.findAll(),systemUserDao.findAll().size()+" people listed");
+        try{
+            loggers.log("All system users listed","getAllSystemUsers");
+            return new SuccessDataResult<>( this.systemUserDao.findAll(),systemUserDao.findAll().size()+" people listed");
+
+        }
+        catch (Exception exception){
+            return new ErrorDataResult<>(exception.getMessage());
+        }
     }
 
     @Override

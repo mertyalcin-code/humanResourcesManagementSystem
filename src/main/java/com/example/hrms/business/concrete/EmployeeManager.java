@@ -5,6 +5,7 @@ import com.example.hrms.business.abstracts.Logger;
 import com.example.hrms.core.concrete.*;
 import com.example.hrms.dataAccess.abstracts.ActivationCodeDao;
 import com.example.hrms.dataAccess.abstracts.EmployeeDao;
+import com.example.hrms.entities.abstracts.User;
 import com.example.hrms.entities.concrete.ActivationCode;
 import com.example.hrms.entities.concrete.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,25 +24,30 @@ public class EmployeeManager implements EmployeeService {
     private ActivationMailSender activationMailSender;
     private ActivationCodeDao activationCodeDao;
     private UserManager userManager;
-    private List<Logger> loggers = new ArrayList<>();
+    private Loggers loggers;
 
-
-    public EmployeeManager(EmployeeDao employeeDao, UserCheckManager userCheckManager, ActivationMailSender activationMailSender
-            , ActivationCodeDao activationCodeDao, UserManager userManager, @Qualifier("postgreSqlLogger") Logger dbLogger, @Qualifier("fileLogger") Logger fileLogger) {
+    @Autowired
+    public EmployeeManager(EmployeeDao employeeDao, UserCheckManager userCheckManager, ActivationMailSender activationMailSender,
+                           ActivationCodeDao activationCodeDao, UserManager userManager, Loggers loggers) {
         this.employeeDao = employeeDao;
         this.userCheckManager = userCheckManager;
         this.activationMailSender = activationMailSender;
         this.activationCodeDao = activationCodeDao;
         this.userManager = userManager;
-        this.loggers.add(dbLogger);
-        this.loggers.add(fileLogger);
+        this.loggers = loggers;
     }
 
     @Override
     public DataResult<List<Employee>> getAll() {
+        try{
+            loggers.log("All employees listed","getAllEmployees");
+            return new SuccessDataResult<>(
+                this.employeeDao.findAll(),employeeDao.findAll().size()+" people Listed");
 
-        return new SuccessDataResult<List<Employee>>( this.employeeDao.findAll(),employeeDao.findAll().size()+" people Listed");
-
+        }
+        catch (Exception exception){
+            return new ErrorDataResult<>(exception.getMessage());
+        }
     }
 
     @Override
@@ -78,15 +84,11 @@ public class EmployeeManager implements EmployeeService {
 
         else {
             employeeDao.save(employee);
-            loggers.forEach(logger -> logger.log(
-                    employee,
-                    "Registration: "
-                            +employee.getEmail()
-                            +" "
-                            +employee.getFirstName()
-                            +" "
-                            +employee.getLastName(),
-                    "Registration"));
+
+            loggers.log(employee,
+                    "Registration: "+employee.getEmail()+" "+employee.getFirstName()+" "+employee.getLastName(),
+                    "registration");
+
             activationMailSender.SendActivationMail(employee);//şuan için veri tabanına aktivasyon kodu yazıyor.
             return new SuccessResult("Registration Successful: activation code has been sent to your e-mail address.");
         }
@@ -99,15 +101,9 @@ public class EmployeeManager implements EmployeeService {
         try{
             Employee employee=employeeDao.findById(id).get();
             employeeDao.delete(employee);
-            loggers.forEach(logger -> logger.log(
-                    employee,
-                    "Delete Registration: "
-                            +employee.getEmail()
-                            +" "
-                            +employee.getFirstName()
-                            +" "
-                            +employee.getLastName(),
-                    "delete"));
+            loggers.log(employee,
+                    "Delete Registration: "+employee.getEmail()+" "+employee.getFirstName()+" "+employee.getLastName(),
+                    "delete");
             return new SuccessResult("Deleted: "+employee.getFirstName()+" "+employee.getLastName());
         }
         catch (Exception exception){
@@ -120,7 +116,7 @@ public class EmployeeManager implements EmployeeService {
     @Override
     public DataResult<Employee> getById(int id) {
         Employee employee = employeeDao.findById(id).get();
-        loggers.forEach(logger -> logger.log(
+        loggers.log(
                 employee,
                 "Found by Id: "
                         +employee.getEmail()
@@ -128,12 +124,17 @@ public class EmployeeManager implements EmployeeService {
                         +employee.getFirstName()
                         +" "
                         +employee.getLastName(),
-                "getById"));
-        return new SuccessDataResult<Employee>(employee,"Employee data has been fetched successfully.");
+                "getById");
+        return new SuccessDataResult<>(employee,"Employee data has been fetched successfully.");
+    }
+
+    @Override
+    public DataResult<Employee> getByEmail(String email) {
+        return new SuccessDataResult<>(employeeDao.findEmployeeByEmail(email),"Listed");
     }
 
     @Override
     public Result mailActivation(String activationCode) {
-       return userManager.mailActivation(activationCode);
+        return userManager.mailActivation(activationCode);
     }
 }

@@ -9,7 +9,7 @@ import java.io.*;
 import java.sql.Timestamp;
 
 @Service
-public class FileLogger implements Logger {
+public class FileLogger extends Logger {
 
 
     public FileLogger() {
@@ -27,16 +27,30 @@ public class FileLogger implements Logger {
     }
 
 
-    @Override
+
     public void log(User user, String message,String logType) {
 
         try {
 
             BufferedWriter writer =new BufferedWriter(new FileWriter("logBook.txt",true));
             writer.newLine();
-            writer.write(message+" "+ new Timestamp(System.currentTimeMillis()));
+            writer.write(message+" "+ new Timestamp(System.currentTimeMillis())+" logType: "+logType);
             writer.close();
             System.out.println(message+": "+ new Timestamp(System.currentTimeMillis()));
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+    public void log(String message,String logType) {
+
+        try {
+
+            BufferedWriter writer =new BufferedWriter(new FileWriter("logBook.txt",true));
+            writer.newLine();
+            writer.write(message+" "+ new Timestamp(System.currentTimeMillis())+" logType: "+logType);
+            writer.close();
+            System.out.println(message+"; "+ new Timestamp(System.currentTimeMillis()));
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();

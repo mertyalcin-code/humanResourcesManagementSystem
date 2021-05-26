@@ -19,19 +19,19 @@ public class Log{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    int logId;
+    private int logId;
 
     @Column(name = "user_id")
-    int userId;
+    private int userId;
 
     @Column(name = "log_type")
-    String logType;
+    private String logType;
 
     @Column(name = "log_time")
-    Timestamp logTime;
+    private Timestamp logTime;
 
     @Column(name = "log")
-    String log;
+    private String log;
 
     public Log(int userId, String logType, Timestamp logTime, String log) {
         this.userId = userId;

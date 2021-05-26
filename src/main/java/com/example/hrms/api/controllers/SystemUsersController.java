@@ -24,16 +24,17 @@ public class SystemUsersController {
     }
 
     @GetMapping("/getall")
-    public DataResult<List<SystemUser>> getAll(){
+    public DataResult<List<SystemUser>> getAll() {
         return systemUserService.getAll();
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody SystemUser systemUser){
+    public Result add(@RequestBody SystemUser systemUser) {
         return systemUserService.add(systemUser);
     }
+
     @GetMapping("/{id}")
-    public DataResult<SystemUser> getById(@PathVariable int id){
+    public DataResult<SystemUser> getById(@PathVariable int id) {
         return systemUserService.getById(id);
     }
 

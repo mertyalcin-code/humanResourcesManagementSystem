@@ -9,5 +9,7 @@ import java.util.List;
 public interface ProfessionService {
     DataResult<List<Profession>>  getAll();
     Result add(Profession profession);
+    Result delete(int id);
     DataResult<Profession> getById(int id);
+
 }

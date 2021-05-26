@@ -1,4 +1,5 @@
 package com.example.hrms.api.controllers;
+
 import com.example.hrms.business.abstracts.UserService;
 import com.example.hrms.business.concrete.ActivationMailSender;
 import com.example.hrms.core.concrete.DataResult;
@@ -16,7 +17,7 @@ import java.util.Random;
 @RequestMapping("/api/users")
 public class UsersController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UsersController(UserService userService) {
@@ -25,20 +26,19 @@ public class UsersController {
     }
 
     @GetMapping("/getall")
-    public DataResult<List<User>> getAll(){
+    public DataResult<List<User>> getAll() {
         return userService.getAll();
     }
 
     @GetMapping("/{id}")
-    public DataResult<User> getById(@PathVariable int id){
+    public DataResult<User> getById(@PathVariable int id) {
         return userService.getById(id);
     }
 
     @GetMapping("/activate/{activationCode}")
-    public Result activator(@PathVariable String activationCode){
+    public Result activator(@PathVariable String activationCode) {
         return userService.mailActivation(activationCode);
     }
-
 
 
 }
