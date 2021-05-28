@@ -27,53 +27,56 @@ public class UserManager implements UserService {
     }
 
     @Override
-    public DataResult<List<User>> getAll() {
-
-        try {
+    public DataResult<List<User>> getAllUsers() {
+        List<User> users = userDao.findAll();
+        if (users.size() < 1) {
+            return new ErrorDataResult<>("Not Found");
+        } else {
             loggers.log("All users listed", "getAllUsers");
-            return new SuccessDataResult<>(this.userDao.findAll(), userDao.findAll().size() + " people listed");
-
-        } catch (Exception exception) {
-            return new ErrorDataResult<>(exception.getMessage());
+            return new SuccessDataResult<>(users, userDao.findAll().size() + " people listed");
         }
     }
 
     @Override
-    public DataResult<User> getById(int id) {
-        if (userDao.findById(id).get() != null) {
-            loggers.log(userDao.findById(id).get(), "user found by id", "getByIdUser");
-            return new SuccessDataResult<>(userDao.findById(id).get(), "Listed");
-        } else {
+    public DataResult<User> getUserByUserId(int userId) {
+        User user = userDao.getUserByUserId(userId);
+        if (user == null) {
             return new ErrorDataResult<>("Not Found");
-        }
-
-    }
-
-    @Override
-    public DataResult<User> getByEmail(String email) {
-        if (userDao.findByEmail(email) != null) {
-            return new SuccessDataResult<>(userDao.findByEmail(email), "Listed");
         } else {
+            loggers.log(user, "user found by id", "getUserByUserId");
+            return new SuccessDataResult<>(user, "Listed");
+        }
+
+    }
+
+    @Override
+    public DataResult<User> getUserByEmail(String email) {
+        User user = userDao.getUserByEmail(email);
+        if (user == null) {
             return new ErrorDataResult<>("Not Found");
+        } else {
+            loggers.log(user, "user found by email", "getUserByEmail");
+            return new SuccessDataResult<>(userDao.getUserByEmail(email), "Listed");
         }
     }
 
     @Override
-    public Result mailActivation(String activationCode) {
+    public Result userMailActivation(String activationCode) {
         ActivationCode code = activationCodeDao.getByActivationCode(activationCode);
-        if (code != null && !code.isActive()) {
+        if (code == null) {
+            return new ErrorResult("Invalid Code");
+        }
+        if (code.isActive()) {
+            return new ErrorResult("Already activated");
+        } else {
             code.setActivationDate(new Timestamp(System.currentTimeMillis()));
             code.setActive(true);
             activationCodeDao.save(code);
-
-            loggers.log(userDao.findById(code.getUserId()).get(),
-                    "Mail Activation: " + userDao.findById(code.getUserId()).get().getEmail() + " ",
+            User user = userDao.getUserByUserId(code.getUserId());
+            loggers.log(user,
+                    "Mail Activation: " + user.getEmail() + " ",
                     "mailActivation");
             return new SuccessResult("Activation succesful");
-        } else if (code != null && code.isActive()) {
-            return new ErrorResult("Already activated");
-        } else {
-            return new ErrorResult("Something went wrong");
         }
 
 

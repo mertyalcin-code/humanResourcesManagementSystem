@@ -30,7 +30,7 @@ public class EmployerManager implements EmployerService {
     }
 
     @Override
-    public DataResult<List<Employer>> getAll() {
+    public DataResult<List<Employer>> getAllEmployers() {
         try {
             loggers.log("All employers listed", "getAllEmployers");
             return new SuccessDataResult<>(this.employerDao.findAll(), employerDao.findAll().size() + " people listed");
@@ -41,7 +41,7 @@ public class EmployerManager implements EmployerService {
     }
 
     @Override
-    public Result add(Employer employer) {
+    public Result employerRegistration(Employer employer) {
         if (userCheckManager.checkMailAlreadyExist(employer.getEmail())) {
             return new ErrorResult("Previously registered with this email");
         }
@@ -68,25 +68,48 @@ public class EmployerManager implements EmployerService {
         } else {
             employerDao.save(employer);
             activationMailSender.SendActivationMail(employer);
+            loggers.log("Registration: " + employer.getEmail() + " " + employer.getCompanyName(),
+                    "employersRegistration");
 
             return new SuccessResult("Registration Successful: activation code has been sent to your e-mail address.");
         }
     }
 
     @Override
-    public DataResult<Employer> getById(int id) {
-        if (employerDao.findById(id).get() != null) {
-            return new SuccessDataResult<>(employerDao.findById(id).get(), "Listed");
-        } else {
+    public DataResult<Employer> getEmployerById(int id) {
+        Employer employer = employerDao.getEmployerByUserId(id);
+        if (employer == null) {
             return new ErrorDataResult<>("Not found");
+        } else {
+            loggers.log("Employee found by Id: " + employer.getEmail() + " " + employer.getCompanyName(),
+                    "getEmployeeById");
+            return new SuccessDataResult<>(employer, "Listed");
         }
 
     }
 
     @Override
-    public Result mailActivation(String activationCode) {
+    public Result employerMailActivation(String activationCode) {
 
-        return userManager.mailActivation(activationCode);
+        return userManager.userMailActivation(activationCode);
+    }
+
+    @Override
+    public Result employerSystemActivation(int userId, boolean status) {
+        Employer employer = employerDao.getEmployerByUserId(userId);
+        if (employer == null) {
+            return new ErrorResult("No employee with that Id");
+
+        }
+        if (employer.isSystemVerification() == status) {
+            return new ErrorResult("Already in same status");
+        } else {
+            employer.setSystemVerification(status);
+            employerDao.save(employer);
+            loggers.log("Employer system activation change: " + employer.getEmail() + " " + employer.getCompanyName(),
+                    "employerSystemActivation");
+            return new SuccessResult("new employer System verification status:" + status);
+        }
     }
 
 }

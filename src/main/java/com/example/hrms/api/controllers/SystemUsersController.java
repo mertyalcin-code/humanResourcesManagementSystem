@@ -20,19 +20,19 @@ public class SystemUsersController {
         this.systemUserService = systemUserService;
     }
 
-    @GetMapping("/getall")
-    public DataResult<List<SystemUser>> getAll() {
-        return systemUserService.getAll();
+    @GetMapping("/getAllSysteUsers")
+    public DataResult<List<SystemUser>> getAllSysteUsers() {
+        return systemUserService.getAllSysteUsers();
     }
 
-    @PostMapping("/add")
-    public Result add(@RequestBody SystemUser systemUser) {
-        return systemUserService.add(systemUser);
+    @PostMapping("/systemUserRegistration")
+    public Result systemUserRegistration(@RequestBody SystemUser systemUser) {
+        return systemUserService.systemUserRegistration(systemUser);
     }
 
-    @GetMapping("/{id}")
-    public DataResult<SystemUser> getById(@PathVariable int id) {
-        return systemUserService.getById(id);
+    @GetMapping("/getSystemUserById")
+    public DataResult<SystemUser> getSystemUserById(@RequestParam int userId) {
+        return systemUserService.getSystemUserById(userId);
     }
 
 }

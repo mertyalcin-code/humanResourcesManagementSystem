@@ -15,33 +15,35 @@ public class JobController {
     @Autowired
     JobService jobService;
 
-    @GetMapping("/getAll")
-    DataResult<List<Job>> getAll(){
-        return jobService.getAll();
+    @GetMapping("/getAllJobs")
+    DataResult<List<Job>> getAllJobs() {
+        return jobService.getAllJobs();
     }
 
-    @GetMapping("/getAllByDeadline")
-    DataResult<List<Job>> getAllByDeadline(){
-        return jobService.getAllByDeadline();
+    @GetMapping("/getAllActiveJobsAndSortByDeadline")
+    DataResult<List<Job>> getAllActiveJobsAndSortByDeadline() {
+        return jobService.getAllActiveJobsAndSortByDeadline();
     }
 
     @GetMapping("/getAllActiveJobs")
-    DataResult<List<Job>> getAllActiveJobs(){
+    DataResult<List<Job>> getAllActiveJobs() {
         return jobService.getAllActiveJobs();
     }
 
 
-    @PostMapping("/add")
-    Result add(@RequestBody Job job){
-        return jobService.add(job);
+    @PostMapping("/jobAdd")
+    Result jobAdd(@RequestBody Job job) {
+        return jobService.jobAdd(job);
     }
-    @DeleteMapping("/delete")
-    Result add(@RequestParam int id){
-        return jobService.delete(id);
+
+    @DeleteMapping("/jobDelete")
+    Result jobDelete(@RequestParam int id) {
+        return jobService.jobDelete(id);
     }
-    @GetMapping("/activation")
-    Result activation(@RequestParam int jobId,@RequestParam Boolean status){
-        return jobService.activation(jobId,status);
+
+    @GetMapping("/JobActivationStatusChange")
+    Result JobActivationStatusChange(@RequestParam int jobId, @RequestParam Boolean status) {
+        return jobService.JobActivationStatusChange(jobId, status);
     }
 
 }

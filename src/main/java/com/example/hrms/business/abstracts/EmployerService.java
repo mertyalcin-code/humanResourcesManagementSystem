@@ -7,11 +7,13 @@ import com.example.hrms.entities.concrete.Employer;
 import java.util.List;
 
 public interface EmployerService {
-    DataResult<List<Employer>> getAll();
+    DataResult<List<Employer>> getAllEmployers();
 
-    Result add(Employer employer);
+    Result employerRegistration(Employer employer);
 
-    DataResult<Employer> getById(int id);
+    DataResult<Employer> getEmployerById(int id);
 
-    Result mailActivation(String activationCode);
+    Result employerMailActivation(String activationCode);
+
+    Result employerSystemActivation(int userId, boolean status);
 }

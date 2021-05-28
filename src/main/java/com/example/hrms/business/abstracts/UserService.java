@@ -9,12 +9,12 @@ import java.util.List;
 
 public interface UserService {
 
-    DataResult<List<User>> getAll();
+    DataResult<List<User>> getAllUsers();
 
-    DataResult<User> getById(int id);
+    DataResult<User> getUserByUserId(int id);
 
-    DataResult<User> getByEmail(String email);
+    DataResult<User> getUserByEmail(String email);
 
-    Result mailActivation(String activationCode);
+    Result userMailActivation(String activationCode);
 
 }

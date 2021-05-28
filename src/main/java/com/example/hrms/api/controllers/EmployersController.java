@@ -20,24 +20,24 @@ public class EmployersController {
         this.employerService = employerService;
     }
 
-    @GetMapping("/getall")
-    public DataResult<List<Employer>> getAll() {
-        return employerService.getAll();
+    @GetMapping("/getAllEmployers")
+    public DataResult<List<Employer>> getAllEmployers() {
+        return employerService.getAllEmployers();
     }
 
-    @PostMapping("/add")
-    public Result add(@RequestBody Employer employer) {
-        return employerService.add(employer);
+    @PostMapping("/employerRegistration")
+    public Result employerRegistration(@RequestBody Employer employer) {
+        return employerService.employerRegistration(employer);
     }
 
-    @GetMapping("/{id}")
-    public DataResult<Employer> getById(@PathVariable int id) {
-        return employerService.getById(id);
+    @GetMapping("/getEmployerById")
+    public DataResult<Employer> getEmployerById(@RequestParam int userId) {
+        return employerService.getEmployerById(userId);
     }
 
-    @GetMapping("/activate/{activationCode}")
-    public Result activator(@PathVariable String activationCode) {
-        return employerService.mailActivation(activationCode);
+    @GetMapping("/employerMailActivation")
+    public Result employerMailActivation(@RequestParam String activationCode) {
+        return employerService.employerMailActivation(activationCode);
 
     }
 }

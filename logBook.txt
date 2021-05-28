@@ -44,3 +44,9 @@ All employees listed 2021-05-28 13:01:51.988 logType: getAllEmployees
 Registration: string3@hotmail.com string3 string3 2021-05-28 13:10:44.352 logType: registration
 Mail Activation: string3@hotmail.com  2021-05-28 13:11:08.146 logType: mailActivation
 Profession added: Computer Engineer 2021-05-28 20:55:28.894 logType: addProfession
+All professions listed 2021-05-28 21:47:15.065 logType: getAllProfessions
+All professions listed 2021-05-28 21:47:17.542 logType: getAllProfessions
+All professions listed 2021-05-28 21:48:12.468 logType: getAllProfessions
+Professions getted by id: Food Engineer 2021-05-28 22:57:26.591 logType: getByIdProfession
+All employees listed 2021-05-28 22:57:37.796 logType: getAllEmployees
+All employers listed 2021-05-28 22:58:14.601 logType: getAllEmployers

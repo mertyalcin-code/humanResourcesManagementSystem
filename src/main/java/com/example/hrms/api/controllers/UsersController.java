@@ -4,7 +4,6 @@ import com.example.hrms.business.abstracts.UserService;
 import com.example.hrms.core.concrete.DataResult;
 import com.example.hrms.core.concrete.Result;
 import com.example.hrms.entities.abstracts.User;
-import com.example.hrms.entities.concrete.Profession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,25 +21,30 @@ public class UsersController {
         this.userService = userService;
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAllUsers")
     public DataResult<List<User>> getAll() {
-        return userService.getAll();
+        return userService.getAllUsers();
     }
 
-    @GetMapping("/{id}")
-    public DataResult<User> getById(@PathVariable int id) {
-        return userService.getById(id);
+    @GetMapping("/getUserByUserId")
+    public DataResult<User> getById(@RequestParam int userId) {
+        return userService.getUserByUserId(userId);
     }
 
     @GetMapping("/activate/{activationCode}")
-    public Result activator(@PathVariable String activationCode) {
-        return userService.mailActivation(activationCode);
+    public Result activatorWithLink(@PathVariable String activationCode) {
+        return userService.userMailActivation(activationCode);
     }
 
-    @GetMapping("/byemail")
+    @GetMapping("/activate")
+    public Result activator(@RequestParam String activationCode) {
+        return userService.userMailActivation(activationCode);
+    }
+
+    @GetMapping("/getUserByEmail")
     public DataResult<User> getByEmail(@RequestParam(value = "email") String email) {
 
-        return userService.getByEmail(email);
+        return userService.getUserByEmail(email);
     }
 
 }

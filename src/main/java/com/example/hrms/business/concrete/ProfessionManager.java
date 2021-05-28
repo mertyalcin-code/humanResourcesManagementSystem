@@ -23,14 +23,14 @@ public class ProfessionManager implements ProfessionService {
 
 
     @Override
-    public DataResult<List<Profession>> getAll() {
+    public DataResult<List<Profession>> getAllProfessions() {
         loggers.log("All professions listed", "getAllProfessions");
-        return new SuccessDataResult(
+        return new SuccessDataResult<>(
                 professionDao.findAll(), professionDao.findAll().size() + " professions listed");
     }
 
     @Override
-    public Result add(Profession profession) {
+    public Result professionAdd(Profession profession) {
 
         if (professionDao.findProfessionByTitle(profession.getTitle()) == null) {
             professionDao.save(profession);
@@ -42,45 +42,66 @@ public class ProfessionManager implements ProfessionService {
     }
 
     @Override
-    public Result delete(int id) {
-        Profession professionToDelete = professionDao.findById(id).get();
-        if (professionToDelete != null) {
+    public Result professionDeleteWithId(int id) {
+        Profession professionToDelete = professionDao.findProfessionById(id);
+        if (professionToDelete == null) {
+            return new ErrorResult("Not found");
+
+        } else {
             professionDao.delete(professionToDelete);
             loggers.log("Profession deleted: " + professionToDelete.getTitle(), "deleteProfession");
             return new SuccessResult("Deleted: " + professionToDelete.getTitle());
-
-        } else {
-            return new ErrorResult("Not found");
         }
     }
 
     @Override
-    public Result delete(String title) {
-        Profession profession= professionDao.findProfessionByTitle(title);
-        if (profession != null) {
+    public Result professionDeleteWithTitle(String title) {
+        Profession profession = professionDao.findProfessionByTitle(title);
+        if (profession == null) {
+
+            return new ErrorResult("Not found");
+        } else {
             professionDao.delete(profession);
             loggers.log("Profession deleted: " + profession.getTitle(), "deleteProfession");
             return new SuccessResult("Deleted: " + profession.getTitle());
+        }
+    }
 
+    @Override
+    public Result updateProfessionTitle(String oldTitle, String newTitle) {
+        Profession profession = professionDao.findProfessionByTitle(oldTitle);
+        if (profession == null) {
+            return new ErrorResult("No professesion: " + oldTitle);
+        }
+        if (profession.getTitle().equals(newTitle)) {
+            return new ErrorResult("new title cannot be same");
         } else {
-            return new ErrorResult("Not found");
+            profession.setTitle(newTitle);
+            professionDao.save(profession);
+            return new SuccessResult(oldTitle + " updated to: " + newTitle);
         }
+
     }
 
     @Override
-    public DataResult<Profession> getById(int id) {
-        loggers.log("Professions getted by id: " + professionDao.findById(id).get().getTitle(), "getByIdProfession");
-        return new SuccessDataResult<>(professionDao.findById(id).get(), "Data Listed");
+    public DataResult<Profession> getProfessionById(int id) {
+        Profession profession = professionDao.findProfessionById(id);
+        if (profession == null) {
+            return new ErrorDataResult<>("Not found");
+        } else {
+            loggers.log("Professions getted by id: " + profession.getTitle(), "getByIdProfession");
+            return new SuccessDataResult<>(profession, "Data Listed");
+        }
+
     }
 
     @Override
-    public DataResult<Profession> getByTitle(String title) {
+    public DataResult<Profession> getProfessionByTitle(String title) {
         Profession profession = professionDao.findProfessionByTitle(title);
-        if(profession!=null){
+        if (profession != null) {
             loggers.log("Professions getted by title: " + title, "getByTitleProfession");
-            return new SuccessDataResult<>(profession,"Listed");
-        }
-        else{
+            return new SuccessDataResult<>(profession, "Listed");
+        } else {
             return new ErrorDataResult<>("Not Found");
         }
     }

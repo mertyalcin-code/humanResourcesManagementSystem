@@ -8,21 +8,21 @@ import java.util.List;
 
 public interface EmployeeService {
 
-    DataResult<List<Employee>> getAll();
+    DataResult<List<Employee>> getAllEmployees();
 
-    Result add(Employee employee);
+    Result employeeRegistration(Employee employee);
 
-    Result delete(int id);
+    Result employeeDelete(int id);
 
     //updateler eklemek lazım
 
-    DataResult<Employee> getById(int id);
+    DataResult<Employee> getEmployeeByUserId(int id);
 
-    DataResult<Employee> getByEmail(String email);
+    DataResult<Employee> getEmployeeByEmail(String email);
 
-    DataResult<Employee> getByEmailAndNationaliyId(String email,String nationalityId);
+    DataResult<Employee> getEmployeeByEmailAndNationaliyId(String email, String nationalityId);
 
-    Result mailActivation(String activationCode);
+    Result employeeMailActivation(String activationCode);
 
 
 }

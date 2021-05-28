@@ -22,18 +22,22 @@ public class SystemUserManager implements SystemUserService {
     }
 
     @Override
-    public DataResult<List<SystemUser>> getAll() {
-        try {
-            loggers.log("All system users listed", "getAllSystemUsers");
-            return new SuccessDataResult<>(this.systemUserDao.findAll(), systemUserDao.findAll().size() + " people listed");
+    public DataResult<List<SystemUser>> getAllSysteUsers() {
+        List<SystemUser> systemUsers = this.systemUserDao.findAll();
 
-        } catch (Exception exception) {
-            return new ErrorDataResult<>(exception.getMessage());
+
+        if (systemUsers.size() < 1) {
+            return new ErrorDataResult<>("No system user available");
+        } else {
+            loggers.log("All system users listed", "getAllSystemUsers");
+            return new SuccessDataResult<>(systemUsers, systemUserDao.findAll().size() + " people listed");
         }
+
+
     }
 
     @Override
-    public Result add(SystemUser systemUser) {
+    public Result systemUserRegistration(SystemUser systemUser) {
         if (!userCheckManager.checkMailRegular(systemUser.getEmail())) {
             return new ErrorResult("Your E-mail is incorrect");
         }
@@ -47,17 +51,22 @@ public class SystemUserManager implements SystemUserService {
             return new ErrorResult("Your passwords do not match");
         } else {
             systemUserDao.save(systemUser);
-            return new SuccessResult("Registered");
+            loggers.log("System user registration: " + systemUser.getEmail() + " " + systemUser.getPosition(),
+                    "systemUsersRegistration");
+            return new SuccessResult("Registered: " + systemUser.getEmail());
         }
 
     }
 
     @Override
-    public DataResult<SystemUser> getById(int id) {
-        if (systemUserDao.findById(id).get() != null) {
-            return new SuccessDataResult<>(systemUserDao.findById(id).get(), "Listed");
-        } else {
+    public DataResult<SystemUser> getSystemUserById(int id) {
+        SystemUser systemUser = systemUserDao.getSystemUserByUserId(id);
+        if (systemUser == null) {
             return new ErrorDataResult<>("Not Found");
+        } else {
+            loggers.log("System user found by id: " + systemUser.getEmail() + " " + systemUser.getPosition(),
+                    "getSystemUserById");
+            return new SuccessDataResult<>(systemUser, "Listed");
         }
 
 

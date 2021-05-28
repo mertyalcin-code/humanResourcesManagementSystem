@@ -8,4 +8,6 @@ public interface ProfessionDao extends JpaRepository<Profession, Integer> {
 
     Profession findProfessionByTitle(String title);
 
+    Profession findProfessionById(int id);
+
 }

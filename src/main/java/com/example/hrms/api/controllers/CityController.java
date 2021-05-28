@@ -15,37 +15,44 @@ public class CityController {
     @Autowired
     CityService cityService;
 
-    @GetMapping("/getAllByPlateNumber")
-    DataResult<List<City>> getAllByPlateNumber(){
-        return cityService.getAllByPlateNumber();
+    @GetMapping("/getAllCitiesByPlateNumber")
+    DataResult<List<City>> getAllCitiesByPlateNumber() {
+        return cityService.getAllCitiesByPlateNumber();
     }
-    @GetMapping("/getAllAsc")
-    DataResult<List<City>> getAllAsc(){
-        return cityService.getAllAsc();
+
+    @GetMapping("/getAllCitiesAsc")
+    DataResult<List<City>> getAllCitiesAsc() {
+        return cityService.getAllCitiesAsc();
     }
-    @GetMapping("/getAllByImportance")
-    DataResult<List<City>> getAllByImportance(){
-        return cityService.getAllByImportance();
+
+    @GetMapping("/getAllCitiesByImportance")
+    DataResult<List<City>> getAllCitiesByImportance() {
+        return cityService.getAllCitiesByImportance();
     }
-    @GetMapping("/getByCityId")
-    Result getByCityId(@RequestParam int cityId){
-        return cityService.getByCityId(cityId);
+
+    @GetMapping("/getCityByCityId")
+    Result getCityByCityId(@RequestParam int cityId) {
+        return cityService.getCityByCityId(cityId);
     }
-    @GetMapping("/getByCityName")
-    Result getByCityName(@RequestParam String cityName){
-        return cityService.getByCityName(cityName);
+
+    @GetMapping("/getCityByCityName")
+    Result getCityByCityName(@RequestParam String cityName) {
+        return cityService.getCityByCityName(cityName);
     }
-    @PostMapping("/add")
-    Result add(@RequestBody City city){
-        return cityService.add(city);
+
+    @PostMapping("/cityAdd")
+    Result cityAdd(@RequestBody City city) {
+        return cityService.cityAdd(city);
     }
-    @PostMapping("/addWithList")
-    Result add(@RequestBody List<City> cities){
-        return cityService.addWithList(cities);
+
+    @PostMapping("/citiesAdd")
+    Result citiesAdd(@RequestBody List<City> cities) {
+        return cityService.citiesAdd(cities);
     }
-    @DeleteMapping("/delete")
-    Result add(@RequestParam int cityId){
-        return cityService.delete(cityId);
+
+    @DeleteMapping("/cityDelete")
+    Result cityDelete(@RequestParam int cityId) {
+        return cityService.cityDelete(cityId);
     }
 
 

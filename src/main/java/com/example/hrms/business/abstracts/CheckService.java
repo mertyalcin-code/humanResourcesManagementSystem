@@ -28,6 +28,4 @@ public interface CheckService {
     boolean checkPhoneNumberCorrect(String phoneNumber);
 
 
-
-
 }

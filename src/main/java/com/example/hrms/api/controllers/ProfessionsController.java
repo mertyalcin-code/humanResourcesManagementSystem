@@ -24,33 +24,40 @@ public class ProfessionsController {
 
     @GetMapping("/getall")
     public DataResult<List<Profession>> getAll() {
-        return professionService.getAll();
+        return professionService.getAllProfessions();
     }
 
-    @PostMapping("/add")
-    public Result add(@RequestBody Profession profession) {
-        return this.professionService.add(profession);
+    @PostMapping("/professionAdd")
+    public Result professionAdd(@RequestBody Profession profession) {
+        return this.professionService.professionAdd(profession);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable int id) {
-        return professionService.delete(id);
+    @DeleteMapping("/professionDeleteWithId")
+    public Result professionDeleteWithId(@RequestParam int id) {
+        return professionService.professionDeleteWithId(id);
     }
-    @DeleteMapping("/delete2/")
-    public Result delete2(@RequestParam(value = "title") String title) {
+
+    @DeleteMapping("/professionDeleteWithTitle/")
+    public Result professionDeleteWithTitle(@RequestParam(value = "title") String title) {
         System.out.println(title);
-        return professionService.delete(title);
-    }
-    @GetMapping("/title")
-    public DataResult<Profession> getByTitle(@RequestParam(value = "title") String title) {
-
-        return professionService.getByTitle(title);
+        return professionService.professionDeleteWithTitle(title);
     }
 
-    @GetMapping("/{id}")
-    public DataResult<Profession> getById(@PathVariable int id) {
+    @GetMapping("/getProfessionByTitle")
+    public DataResult<Profession> getProfessionByTitle(@RequestParam(value = "title") String title) {
 
-        return professionService.getById(id);
+        return professionService.getProfessionByTitle(title);
+    }
+
+    @GetMapping("/updateProfessionTitle")
+    Result updateProfessionTitle(@RequestParam String oldTitle, @RequestParam String newTitle) {
+        return professionService.updateProfessionTitle(oldTitle, newTitle);
+    }
+
+    @GetMapping("/getProfessionById}")
+    public DataResult<Profession> getProfessionById(@RequestParam int id) {
+
+        return professionService.getProfessionById(id);
     }
 
 

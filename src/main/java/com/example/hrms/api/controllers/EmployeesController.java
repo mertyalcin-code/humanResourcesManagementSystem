@@ -20,36 +20,37 @@ public class EmployeesController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/getall")
-    public DataResult<List<Employee>> getAll() {
-        return employeeService.getAll();
+    @GetMapping("/getAllEmployees")
+    public DataResult<List<Employee>> getAllEmployees() {
+        return employeeService.getAllEmployees();
     }
 
-    @PostMapping("/add")
-    public Result add(@RequestBody Employee employee) {
-        return employeeService.add(employee);
+    @PostMapping("/employeeRegistration")
+    public Result employeeRegistration(@RequestBody Employee employee) {
+        return employeeService.employeeRegistration(employee);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable int id) {
-        return employeeService.delete(id);
+    @DeleteMapping("/employeeDelete/{id}")
+    public Result employeeDelete(@PathVariable int id) {
+        return employeeService.employeeDelete(id);
     }
 
-    @GetMapping("/getById/{id}")
-    public DataResult<Employee> getById(@PathVariable int id) {
-        return employeeService.getById(id);
+    @GetMapping("/getEmployeeByUserId/{id}")
+    public DataResult<Employee> getEmployeeByUserId(@PathVariable int id) {
+        return employeeService.getEmployeeByUserId(id);
     }
 
-    @GetMapping("/activate/{activationCode}")
-    public Result activator(@PathVariable String activationCode) {
+    @GetMapping("/employeeMailActivation/{activationCode}")
+    public Result employeeMailActivation(@PathVariable String activationCode) {
 
-        return employeeService.mailActivation(activationCode);
+        return employeeService.employeeMailActivation(activationCode);
 
     }
-    @GetMapping("/getByEmailAndNationaliyId")
-    public DataResult<Employee> getByEmailAndNationaliyId(@RequestParam String email,@RequestParam String nationalityId){
-        System.out.println(email+" "+nationalityId);
-        return employeeService.getByEmailAndNationaliyId(email,nationalityId);
+
+    @GetMapping("/getEmployeeByEmailAndNationaliyId")
+    public DataResult<Employee> getEmployeeByEmailAndNationaliyId(@RequestParam String email, @RequestParam String nationalityId) {
+        System.out.println(email + " " + nationalityId);
+        return employeeService.getEmployeeByEmailAndNationaliyId(email, nationalityId);
     }
 
 }

@@ -7,9 +7,10 @@ import com.example.hrms.entities.concrete.SystemUser;
 import java.util.List;
 
 public interface SystemUserService {
-    DataResult<List<SystemUser>> getAll();
 
-    Result add(SystemUser systemUser);
+    DataResult<List<SystemUser>> getAllSysteUsers();
 
-    DataResult<SystemUser> getById(int id);
+    Result systemUserRegistration(SystemUser systemUser);
+
+    DataResult<SystemUser> getSystemUserById(int id);
 }
