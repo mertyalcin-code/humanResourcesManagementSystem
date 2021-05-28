@@ -11,3 +11,36 @@ Mail Activation: sample2@google.com  2021-05-26 19:19:10.785 logType: mailActiva
 Mail Activation: sample2@google.com  2021-05-26 19:19:15.515 logType: mailActivation
 All employees listed 2021-05-26 19:49:31.901 logType: getAllEmployees
 Registration: sample30@gmail.com string string 2021-05-26 20:25:01.687 logType: registration
+Professions getted by title: Teacher 2021-05-26 21:12:42.082 logType: getByTitleProfession
+Profession deleted: Teacher 2021-05-26 21:15:03.97 logType: deleteProfession
+Profession deleted: Computer Engineer 2021-05-26 21:15:12.686 logType: deleteProfession
+All professions listed 2021-05-27 11:23:46.846 logType: getAllProfessions
+All professions listed 2021-05-27 11:24:21.452 logType: getAllProfessions
+All employees listed 2021-05-28 11:21:17.814 logType: getAllEmployees
+All employees listed 2021-05-28 11:28:10.892 logType: getAllEmployees
+All employees listed 2021-05-28 11:38:23.541 logType: getAllEmployees
+All employees listed 2021-05-28 11:39:49.084 logType: getAllEmployees
+All employees listed 2021-05-28 11:44:02.138 logType: getAllEmployees
+All employees listed 2021-05-28 11:44:04.218 logType: getAllEmployees
+All employers listed 2021-05-28 11:44:37.968 logType: getAllEmployers
+All employees listed 2021-05-28 11:54:08.182 logType: getAllEmployees
+All users listed 2021-05-28 11:56:05.558 logType: getAllUsers
+All employees listed 2021-05-28 12:04:12.028 logType: getAllEmployees
+Registration: string2@gmail.com string string 2021-05-28 12:07:31.104 logType: registration
+Mail Activation: string2@gmail.com  2021-05-28 12:07:49.29 logType: mailActivation
+All employees listed 2021-05-28 12:09:21.366 logType: getAllEmployees
+Mail Activation: string@google.com  2021-05-28 12:18:27.364 logType: mailActivation
+All employees listed 2021-05-28 12:27:25.857 logType: getAllEmployees
+All employees listed 2021-05-28 12:27:59.535 logType: getAllEmployees
+All employees listed 2021-05-28 12:29:59.739 logType: getAllEmployees
+All employees listed 2021-05-28 12:30:07.059 logType: getAllEmployees
+All users listed 2021-05-28 12:31:18.552 logType: getAllUsers
+All employees listed 2021-05-28 12:31:47.515 logType: getAllEmployees
+All employees listed 2021-05-28 12:39:34.613 logType: getAllEmployees
+All employees listed 2021-05-28 12:41:00.608 logType: getAllEmployees
+Found by Id: string2@gmail.com string string 2021-05-28 12:48:30.95 logType: getById
+All employees listed 2021-05-28 12:56:23.429 logType: getAllEmployees
+All employees listed 2021-05-28 13:01:51.988 logType: getAllEmployees
+Registration: string3@hotmail.com string3 string3 2021-05-28 13:10:44.352 logType: registration
+Mail Activation: string3@hotmail.com  2021-05-28 13:11:08.146 logType: mailActivation
+Profession added: Computer Engineer 2021-05-28 20:55:28.894 logType: addProfession

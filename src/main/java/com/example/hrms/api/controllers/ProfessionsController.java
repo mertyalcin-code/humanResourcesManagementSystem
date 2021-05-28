@@ -32,6 +32,21 @@ public class ProfessionsController {
         return this.professionService.add(profession);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public Result delete(@PathVariable int id) {
+        return professionService.delete(id);
+    }
+    @DeleteMapping("/delete2/")
+    public Result delete2(@RequestParam(value = "title") String title) {
+        System.out.println(title);
+        return professionService.delete(title);
+    }
+    @GetMapping("/title")
+    public DataResult<Profession> getByTitle(@RequestParam(value = "title") String title) {
+
+        return professionService.getByTitle(title);
+    }
+
     @GetMapping("/{id}")
     public DataResult<Profession> getById(@PathVariable int id) {
 

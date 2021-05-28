@@ -1,10 +1,9 @@
 package com.example.hrms.swingDemo;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import javax.swing.*;
-import java.awt.EventQueue;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,7 +20,7 @@ public class SwingApp extends JFrame {
         var quitButton = new JButton("Quit");
 
         quitButton.addActionListener((ActionEvent event) -> {
-            JOptionPane.showMessageDialog(null,"Game Over");
+            JOptionPane.showMessageDialog(null, "Game Over");
             System.exit(0);
         });
 
@@ -36,11 +35,10 @@ public class SwingApp extends JFrame {
     class GameOverActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(null,"Game Over");
+            JOptionPane.showMessageDialog(null, "Game Over");
             System.exit(0);
         }
     }
-
 
 
     private void createLayout(JComponent... arg) {

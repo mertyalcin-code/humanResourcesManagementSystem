@@ -46,5 +46,10 @@ public class EmployeesController {
         return employeeService.mailActivation(activationCode);
 
     }
+    @GetMapping("/getByEmailAndNationaliyId")
+    public DataResult<Employee> getByEmailAndNationaliyId(@RequestParam String email,@RequestParam String nationalityId){
+        System.out.println(email+" "+nationalityId);
+        return employeeService.getByEmailAndNationaliyId(email,nationalityId);
+    }
 
 }

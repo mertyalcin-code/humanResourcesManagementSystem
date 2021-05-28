@@ -7,9 +7,17 @@ import com.example.hrms.entities.concrete.Profession;
 import java.util.List;
 
 public interface ProfessionService {
-    DataResult<List<Profession>>  getAll();
+    DataResult<List<Profession>> getAll();
+
     Result add(Profession profession);
+
     Result delete(int id);
+
+    Result delete(String title);
+
     DataResult<Profession> getById(int id);
+
+    DataResult<Profession> getByTitle(String title);
+
 
 }

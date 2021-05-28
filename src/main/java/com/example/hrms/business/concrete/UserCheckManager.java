@@ -1,6 +1,6 @@
 package com.example.hrms.business.concrete;
 
-import com.example.hrms.business.abstracts.UserCheckService;
+import com.example.hrms.business.abstracts.CheckService;
 import com.example.hrms.core.abstracts.IdentityVerificationService;
 import com.example.hrms.dataAccess.abstracts.EmployeeDao;
 import com.example.hrms.dataAccess.abstracts.UserDao;
@@ -14,7 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class UserCheckManager implements UserCheckService { //daha kullanÄ±lmadÄ±
+public class UserCheckManager implements CheckService {
 
     IdentityVerificationService identityVerificationService;
     UserDao userDao;
@@ -26,10 +26,6 @@ public class UserCheckManager implements UserCheckService { //daha kullanÄ±lmadÄ
         this.userDao = userDao;
         this.employeeDao = employeeDao;
     }
-
-
-
-
 
 
     @Override
@@ -53,7 +49,7 @@ public class UserCheckManager implements UserCheckService { //daha kullanÄ±lmadÄ
     public boolean checkLastNameRegular(String LastName) {
         Pattern lastNamePattern = Pattern.compile(".{2,}");
         Matcher lastNameMatcher = lastNamePattern.matcher(LastName);
-        return  lastNameMatcher.matches();
+        return lastNameMatcher.matches();
 
     }
 
@@ -74,7 +70,7 @@ public class UserCheckManager implements UserCheckService { //daha kullanÄ±lmadÄ
     public boolean checkNationalityIdValid(String nationalityId, String firstName, String lastName, String birthYear) {
 
         try {
-            return identityVerificationService.NationalityIdValidOrNot( nationalityId,  firstName,  lastName,  birthYear);
+            return identityVerificationService.NationalityIdValidOrNot(nationalityId, firstName, lastName, birthYear);
         } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
@@ -87,9 +83,9 @@ public class UserCheckManager implements UserCheckService { //daha kullanÄ±lmadÄ
     public boolean checkNationalityIdAlreadyExist(String nationalityId) {
         List<Employee> allEmployees = employeeDao.findAll();
         boolean employeeMatch = false;
-        for(Employee employee :allEmployees){
-            if(employee.getNationalityId()==nationalityId){
-                employeeMatch=true;
+        for (Employee employee : allEmployees) {
+            if (employee.getNationalityId() == nationalityId) {
+                employeeMatch = true;
             }
         }
         return employeeMatch;
@@ -105,7 +101,7 @@ public class UserCheckManager implements UserCheckService { //daha kullanÄ±lmadÄ
 
     @Override
     public boolean checkEmailFromWebSite(String email, String website) {
-        String domain=email.substring(email.indexOf("@")+1);
+        String domain = email.substring(email.indexOf("@") + 1);
         return website.contains(domain);
     }
 
@@ -113,23 +109,23 @@ public class UserCheckManager implements UserCheckService { //daha kullanÄ±lmadÄ
     public boolean checkCompanyNameRegular(String companyName) {
         Pattern lastNamePattern = Pattern.compile(".{2,}");
         Matcher lastNameMatcher = lastNamePattern.matcher(companyName);
-        return  lastNameMatcher.matches();
+        return lastNameMatcher.matches();
     }
 
     @Override
     public boolean checkPhoneNumberCorrect(String phoneNumber) {
         Pattern pattern = Pattern.compile("^\\d{10}$");
         Matcher matcher = pattern.matcher(phoneNumber);
-       return matcher.matches();
+        return matcher.matches();
     }
 
     @Override
     public boolean checkMailAlreadyExist(String email) {
         List<User> allUsers = userDao.findAll();
         boolean userMatch = false;
-        for(User user :allUsers){
-            if(user.getEmail()==email){
-                userMatch=true;
+        for (User user : allUsers) {
+            if (user.getEmail() == email) {
+                userMatch = true;
             }
         }
 

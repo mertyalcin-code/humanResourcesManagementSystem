@@ -2,10 +2,12 @@ package com.example.hrms.business.concrete;
 
 import com.example.hrms.business.abstracts.Logger;
 import com.example.hrms.entities.abstracts.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Timestamp;
 
 @Service
@@ -20,37 +22,6 @@ public class FileLogger extends Logger {
             } else {
                 System.out.println("File already exists.");
             }
-        }   catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-    }
-
-
-
-    public void log(User user, String message,String logType) {
-
-        try {
-
-            BufferedWriter writer =new BufferedWriter(new FileWriter("logBook.txt",true));
-            writer.newLine();
-            writer.write(message+" "+ new Timestamp(System.currentTimeMillis())+" logType: "+logType);
-            writer.close();
-            System.out.println(message+": "+ new Timestamp(System.currentTimeMillis()));
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-    }
-    public void log(String message,String logType) {
-
-        try {
-
-            BufferedWriter writer =new BufferedWriter(new FileWriter("logBook.txt",true));
-            writer.newLine();
-            writer.write(message+" "+ new Timestamp(System.currentTimeMillis())+" logType: "+logType);
-            writer.close();
-            System.out.println(message+"; "+ new Timestamp(System.currentTimeMillis()));
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
@@ -58,5 +29,36 @@ public class FileLogger extends Logger {
     }
 
 
+    public void log(User user, String message, String logType) {
+
+        try {
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter("logBook.txt", true));
+            writer.newLine();
+            writer.write(message + " " + new Timestamp(System.currentTimeMillis()) + " logType: " + logType);
+            writer.close();
+            System.out.println(message + ": " + new Timestamp(System.currentTimeMillis()));
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
+
+    public void log(String message, String logType) {
+
+        try {
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter("logBook.txt", true));
+            writer.newLine();
+            writer.write(message + " " + new Timestamp(System.currentTimeMillis()) + " logType: " + logType);
+            writer.close();
+            System.out.println(message + "; " + new Timestamp(System.currentTimeMillis()));
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+
+}
 

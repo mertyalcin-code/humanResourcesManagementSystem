@@ -22,45 +22,66 @@ public class ProfessionManager implements ProfessionService {
     }
 
 
-
-
     @Override
     public DataResult<List<Profession>> getAll() {
-        loggers.log("All professions listed","getAllProfessions");
+        loggers.log("All professions listed", "getAllProfessions");
         return new SuccessDataResult(
-                professionDao.findAll(),professionDao.findAll().size()+" professions listed");
+                professionDao.findAll(), professionDao.findAll().size() + " professions listed");
     }
 
     @Override
     public Result add(Profession profession) {
 
-        if(professionDao.findProfessionByTitle(profession.getTitle())==null){
+        if (professionDao.findProfessionByTitle(profession.getTitle()) == null) {
             professionDao.save(profession);
-            loggers.log("Profession added: "+profession.getTitle(),"addProfession");
-            return new SuccessResult("Succesfully Added: "+profession.getTitle()) ;
-        }
-        else{
-            return new ErrorResult("This profession is available in the system: "+profession.getTitle());
+            loggers.log("Profession added: " + profession.getTitle(), "addProfession");
+            return new SuccessResult("Succesfully Added: " + profession.getTitle());
+        } else {
+            return new ErrorResult("This profession is available in the system: " + profession.getTitle());
         }
     }
 
     @Override
     public Result delete(int id) {
-       Profession professionToDelete= professionDao.findById(id).get();
-       if(professionToDelete!=null){
-           professionDao.delete(professionToDelete);
-           loggers.log("Profession deleted: "+professionToDelete.getTitle(),"deleteProfession");
-           return new SuccessResult("Deleted: "+professionToDelete.getTitle());
+        Profession professionToDelete = professionDao.findById(id).get();
+        if (professionToDelete != null) {
+            professionDao.delete(professionToDelete);
+            loggers.log("Profession deleted: " + professionToDelete.getTitle(), "deleteProfession");
+            return new SuccessResult("Deleted: " + professionToDelete.getTitle());
 
-       }
-       else{
-           return new ErrorResult("Not found");
-       }
+        } else {
+            return new ErrorResult("Not found");
+        }
+    }
+
+    @Override
+    public Result delete(String title) {
+        Profession profession= professionDao.findProfessionByTitle(title);
+        if (profession != null) {
+            professionDao.delete(profession);
+            loggers.log("Profession deleted: " + profession.getTitle(), "deleteProfession");
+            return new SuccessResult("Deleted: " + profession.getTitle());
+
+        } else {
+            return new ErrorResult("Not found");
+        }
     }
 
     @Override
     public DataResult<Profession> getById(int id) {
-        loggers.log("Professions getted by id: "+professionDao.findById(id).get().getTitle(),"getByIdProfession");
-        return  new SuccessDataResult(professionDao.findById(id).get(),"Data Listed");
+        loggers.log("Professions getted by id: " + professionDao.findById(id).get().getTitle(), "getByIdProfession");
+        return new SuccessDataResult<>(professionDao.findById(id).get(), "Data Listed");
+    }
+
+    @Override
+    public DataResult<Profession> getByTitle(String title) {
+        Profession profession = professionDao.findProfessionByTitle(title);
+        if(profession!=null){
+            loggers.log("Professions getted by title: " + title, "getByTitleProfession");
+            return new SuccessDataResult<>(profession,"Listed");
+        }
+        else{
+            return new ErrorDataResult<>("Not Found");
+        }
     }
 }

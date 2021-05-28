@@ -1,6 +1,6 @@
 package com.example.hrms.business.abstracts;
 
-public interface UserCheckService {
+public interface CheckService {
 
 
     boolean checkMailRegular(String email);
@@ -13,7 +13,7 @@ public interface UserCheckService {
 
     boolean checkPasswordRegular(String password);
 
-    boolean checkControlPasswordSame(String password,String controlPassword);
+    boolean checkControlPasswordSame(String password, String controlPassword);
 
     boolean checkNationalityIdValid(String nationalityId, String firstName, String lastName, String birthYear);
 
@@ -21,11 +21,12 @@ public interface UserCheckService {
 
     boolean checkWebsiteRegular(String website);
 
-    boolean checkEmailFromWebSite(String email,String website);
+    boolean checkEmailFromWebSite(String email, String website);
 
     boolean checkCompanyNameRegular(String companyName);
 
     boolean checkPhoneNumberCorrect(String phoneNumber);
+
 
 
 

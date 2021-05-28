@@ -1,18 +1,12 @@
 package com.example.hrms.business.concrete;
 
-import com.example.hrms.business.abstracts.EmployeeService;
 import com.example.hrms.business.abstracts.EmployerService;
 import com.example.hrms.core.concrete.*;
 import com.example.hrms.dataAccess.abstracts.ActivationCodeDao;
-import com.example.hrms.dataAccess.abstracts.EmployeeDao;
 import com.example.hrms.dataAccess.abstracts.EmployerDao;
-import com.example.hrms.entities.concrete.ActivationCode;
-import com.example.hrms.entities.concrete.Employee;
 import com.example.hrms.entities.concrete.Employer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.*;
+import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -37,12 +31,11 @@ public class EmployerManager implements EmployerService {
 
     @Override
     public DataResult<List<Employer>> getAll() {
-        try{
-            loggers.log("All employers listed","getAllEmployers");
-            return new SuccessDataResult<>( this.employerDao.findAll(),employerDao.findAll().size()+" people listed");
+        try {
+            loggers.log("All employers listed", "getAllEmployers");
+            return new SuccessDataResult<>(this.employerDao.findAll(), employerDao.findAll().size() + " people listed");
 
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             return new ErrorDataResult<>(exception.getMessage());
         }
     }

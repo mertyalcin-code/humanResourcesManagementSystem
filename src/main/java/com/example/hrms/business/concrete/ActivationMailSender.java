@@ -6,13 +6,8 @@ import com.example.hrms.entities.concrete.ActivationCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.temporal.TemporalAccessor;
-import java.util.*;
-import java.util.stream.IntStream;
+import java.util.Random;
 
 @Service
 public class ActivationMailSender {
@@ -20,8 +15,9 @@ public class ActivationMailSender {
     private ActivationCodeDao activationCodeDao;
 
 
+    public ActivationMailSender() {
+    }
 
-    public ActivationMailSender(){}
     @Autowired
     public ActivationMailSender(ActivationCodeDao activationCodeDao) {
         this.activationCodeDao = activationCodeDao;
@@ -40,13 +36,13 @@ public class ActivationMailSender {
                 .toString();
         return generatedString;
 
-           }
+    }
 
 
     public void SendActivationMail(User user) {
-        String code=codeGenerator();
-        System.out.println("localhost:8085/api/users/activate/"+code);
-        activationCodeDao.save(new ActivationCode(user.getUserId(),new Timestamp(System.currentTimeMillis()),code)
+        String code = codeGenerator();
+        System.out.println("localhost:8085/api/users/activate/" + code);
+        activationCodeDao.save(new ActivationCode(user.getUserId(), new Timestamp(System.currentTimeMillis()), code)
         );
     }
 

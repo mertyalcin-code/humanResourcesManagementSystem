@@ -18,14 +18,15 @@ public class PostgreSqlLogger extends Logger {
     }
 
 
-    public void log(User user, String message,String logType) {
+    public void log(User user, String message, String logType) {
 
-      loggerDao.save(new Log(user.getUserId(),logType,new Timestamp(System.currentTimeMillis()),message));
+        loggerDao.save(new Log(user.getUserId(), logType, new Timestamp(System.currentTimeMillis()), message));
 
     }
-    public void log(String message,String logType) {
 
-        loggerDao.save(new Log(logType,new Timestamp(System.currentTimeMillis()),message));
+    public void log(String message, String logType) {
+
+        loggerDao.save(new Log(logType, new Timestamp(System.currentTimeMillis()), message));
 
     }
 

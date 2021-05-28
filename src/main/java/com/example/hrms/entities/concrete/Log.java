@@ -1,7 +1,5 @@
 package com.example.hrms.entities.concrete;
 
-import com.example.hrms.business.abstracts.Logger;
-import com.example.hrms.entities.abstracts.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,8 +12,8 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="logs")
-public class Log{
+@Table(name = "logs")
+public class Log {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -39,6 +37,7 @@ public class Log{
         this.logTime = logTime;
         this.log = log;
     }
+
     public Log(String logType, Timestamp logTime, String log) {
         this.logType = logType;
         this.logTime = logTime;

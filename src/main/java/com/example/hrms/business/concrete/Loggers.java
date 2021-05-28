@@ -5,12 +5,12 @@ import com.example.hrms.entities.abstracts.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
+
 @Service
 public class Loggers {
     FileLogger fileLogger;
     PostgreSqlLogger postgreSqlLogger;
-    ArrayList<Logger> loggers =new ArrayList();
+    ArrayList<Logger> loggers = new ArrayList();
 
     public Loggers(FileLogger fileLogger, PostgreSqlLogger postgreSqlLogger) {
         this.fileLogger = fileLogger;
@@ -18,16 +18,18 @@ public class Loggers {
         loggers.add(fileLogger);
         loggers.add(postgreSqlLogger);
     }
-    public void log(User user, String message, String logType){
-        for (Logger logger:loggers
-             ) {
-            logger.log(user,message,logType);
+
+    public void log(User user, String message, String logType) {
+        for (Logger logger : loggers
+        ) {
+            logger.log(user, message, logType);
         }
     }
-    public void log(String message, String logType){
-        for (Logger logger:loggers
+
+    public void log(String message, String logType) {
+        for (Logger logger : loggers
         ) {
-            logger.log(message,logType);
+            logger.log(message, logType);
         }
     }
 }
