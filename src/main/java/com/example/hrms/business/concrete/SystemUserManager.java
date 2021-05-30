@@ -12,10 +12,10 @@ import java.util.List;
 public class SystemUserManager implements SystemUserService {
 
     SystemUserDao systemUserDao;
-    UserCheckManager userCheckManager;
+    ValidationManager userCheckManager;
     Loggers loggers;
 
-    public SystemUserManager(SystemUserDao systemUserDao, UserCheckManager userCheckManager, Loggers loggers) {
+    public SystemUserManager(SystemUserDao systemUserDao, ValidationManager userCheckManager, Loggers loggers) {
         this.systemUserDao = systemUserDao;
         this.userCheckManager = userCheckManager;
         this.loggers = loggers;

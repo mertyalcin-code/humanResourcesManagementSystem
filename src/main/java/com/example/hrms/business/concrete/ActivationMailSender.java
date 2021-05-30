@@ -41,7 +41,7 @@ public class ActivationMailSender {
     public void SendActivationMail(User user) {
         String code = codeGenerator();
         System.out.println("localhost:8085/api/users/activate/" + code);
-        activationCodeDao.save(new ActivationCode(user.getUserId(), new Timestamp(System.currentTimeMillis()), code)
+        activationCodeDao.save(new ActivationCode(user, new Timestamp(System.currentTimeMillis()), code)
         );
     }
 

@@ -72,7 +72,7 @@ public class UserManager implements UserService {
             code.setActivationDate(new Timestamp(System.currentTimeMillis()));
             code.setActive(true);
             activationCodeDao.save(code);
-            User user = userDao.getUserByUserId(code.getUserId());
+            User user = userDao.getUserByUserId(code.getUser().getUserId());
             loggers.log(user,
                     "Mail Activation: " + user.getEmail() + " ",
                     "mailActivation");

@@ -1,32 +1,35 @@
 package com.example.hrms.business.concrete;
 
-import com.example.hrms.business.abstracts.CheckService;
+import com.example.hrms.business.abstracts.ValidationService;
 import com.example.hrms.core.abstracts.IdentityVerificationService;
-import com.example.hrms.dataAccess.abstracts.EmployeeDao;
-import com.example.hrms.dataAccess.abstracts.UserDao;
+import com.example.hrms.dataAccess.abstracts.*;
 import com.example.hrms.entities.abstracts.User;
 import com.example.hrms.entities.concrete.Employee;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class UserCheckManager implements CheckService {
+public class ValidationManager implements ValidationService {
 
-    IdentityVerificationService identityVerificationService;
-    UserDao userDao;
-    EmployeeDao employeeDao;
+    private final IdentityVerificationService identityVerificationService;
+    private final UserDao userDao;
+    private final EmployeeDao employeeDao;
+    private final ProfessionDao professionDao;
+    private final CityDao cityDao;
+    private final JobDao jobDao;
 
-    @Autowired
-    public UserCheckManager(IdentityVerificationService identityVerificationService, UserDao userDao, EmployeeDao employeeDao) {
+    public ValidationManager(IdentityVerificationService identityVerificationService, UserDao userDao,
+                             EmployeeDao employeeDao, ProfessionDao professionDao, CityDao cityDao, JobDao jobDao) {
         this.identityVerificationService = identityVerificationService;
         this.userDao = userDao;
         this.employeeDao = employeeDao;
+        this.professionDao = professionDao;
+        this.cityDao = cityDao;
+        this.jobDao = jobDao;
     }
-
 
     @Override
     public boolean checkMailRegular(String email) {
@@ -38,16 +41,15 @@ public class UserCheckManager implements CheckService {
 
     @Override
     public boolean checkFirstNameRegular(String firstName) {
-        Pattern namePattern = Pattern.compile(".{2,}");
+        Pattern namePattern = Pattern.compile(".{2,50}");
         Matcher nameMatcher = namePattern.matcher(firstName);
-
         return nameMatcher.matches();
 
     }
 
     @Override
     public boolean checkLastNameRegular(String LastName) {
-        Pattern lastNamePattern = Pattern.compile(".{2,}");
+        Pattern lastNamePattern = Pattern.compile(".{2,50}");
         Matcher lastNameMatcher = lastNamePattern.matcher(LastName);
         return lastNameMatcher.matches();
 
@@ -55,7 +57,7 @@ public class UserCheckManager implements CheckService {
 
     @Override
     public boolean checkPasswordRegular(String password) {
-        Pattern passwordPattern = Pattern.compile(".{6,}");
+        Pattern passwordPattern = Pattern.compile(".{6,20}");
         Matcher passwordMatcher = passwordPattern.matcher(password);
         return passwordMatcher.matches();
 
@@ -71,9 +73,9 @@ public class UserCheckManager implements CheckService {
 
         try {
             return identityVerificationService.NationalityIdValidOrNot(nationalityId, firstName, lastName, birthYear);
-        } catch (Exception e) {
-            System.out.println(e);
-            e.printStackTrace();
+        } catch (Exception exception) {
+            System.out.println(exception);
+            exception.printStackTrace();
             return false;
         }
 
@@ -81,14 +83,8 @@ public class UserCheckManager implements CheckService {
 
     @Override
     public boolean checkNationalityIdAlreadyExist(String nationalityId) {
-        List<Employee> allEmployees = employeeDao.findAll();
-        boolean employeeMatch = false;
-        for (Employee employee : allEmployees) {
-            if (employee.getNationalityId() == nationalityId) {
-                employeeMatch = true;
-            }
-        }
-        return employeeMatch;
+        Employee employee = employeeDao.getEmployeeByNationalityId(nationalityId);
+        return employee != null;
     }
 
     @Override
@@ -121,15 +117,39 @@ public class UserCheckManager implements CheckService {
 
     @Override
     public boolean checkMailAlreadyExist(String email) {
-        List<User> allUsers = userDao.findAll();
-        boolean userMatch = false;
-        for (User user : allUsers) {
-            if (user.getEmail() == email) {
-                userMatch = true;
-            }
-        }
+        User user = userDao.getUserByEmail(email);
+        return user != null;
+    }
 
-        return userMatch;
+    @Override
+    public boolean checkJobPositionValid(String jobPosition) {
+        return professionDao.findProfessionByTitle(jobPosition) != null;
+    }
+
+    @Override
+    public boolean checkJobDescriptionValid(String jobDescription) {
+        return jobDescription.length() >= 50 && jobDescription.length() <= 500;
+    }
+
+    @Override
+    public boolean checkCityValid(String city) {
+        return cityDao.getCityByCityName(city) != null;
+    }
+
+    @Override
+    public boolean checkSalaryPerMonthValid(Double salary) {
+        return salary >= 2000 && salary <= 100000;
+    }
+
+    @Override
+    public boolean checkQuanitityValid(int quantity) {
+        return quantity >= 1 && quantity <= 50;
+    }
+
+    @Override
+    public boolean checkDeadlineValid(LocalDate deadline) {
+
+        return deadline.isAfter(LocalDate.now());
     }
 }
 

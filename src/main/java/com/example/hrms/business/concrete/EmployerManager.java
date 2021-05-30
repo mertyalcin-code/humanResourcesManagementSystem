@@ -13,13 +13,13 @@ import java.util.List;
 public class EmployerManager implements EmployerService {
 
     EmployerDao employerDao;
-    UserCheckManager userCheckManager;
+    ValidationManager userCheckManager;
     ActivationMailSender activationMailSender;
     ActivationCodeDao activationCodeDao;
     UserManager userManager;
     Loggers loggers;
 
-    public EmployerManager(EmployerDao employerDao, UserCheckManager userCheckManager,
+    public EmployerManager(EmployerDao employerDao, ValidationManager userCheckManager,
                            ActivationMailSender activationMailSender, ActivationCodeDao activationCodeDao, UserManager userManager, Loggers loggers) {
         this.employerDao = employerDao;
         this.userCheckManager = userCheckManager;
@@ -31,13 +31,18 @@ public class EmployerManager implements EmployerService {
 
     @Override
     public DataResult<List<Employer>> getAllEmployers() {
-        try {
-            loggers.log("All employers listed", "getAllEmployers");
-            return new SuccessDataResult<>(this.employerDao.findAll(), employerDao.findAll().size() + " people listed");
-
-        } catch (Exception exception) {
-            return new ErrorDataResult<>(exception.getMessage());
+        List<Employer> employers = this.employerDao.findAll();
+        if(employers.size()<1){
+            return new ErrorDataResult<>("Not found");
         }
+        else{
+            loggers.log("All employers listed", "getAllEmployers");
+            return new SuccessDataResult<>(employers, employerDao.findAll().size() + " people listed");
+        }
+
+
+
+
     }
 
     @Override

@@ -39,6 +39,7 @@ public class UsersController {
     @GetMapping("/activate")
     public Result activator(@RequestParam String activationCode) {
         return userService.userMailActivation(activationCode);
+
     }
 
     @GetMapping("/getUserByEmail")

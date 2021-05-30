@@ -20,22 +20,14 @@ import java.util.List;
 
 
 public class FLGKPSPublicSoap12 {
-    interface FLGIWcfMethod {
-        FLGExtendedSoapSerializationEnvelope CreateSoapEnvelope() throws java.lang.Exception;
-
-        java.lang.Object ProcessResult(FLGExtendedSoapSerializationEnvelope __envelope, java.lang.Object result) throws java.lang.Exception;
-    }
-
-    String url = "https://tckimlik.nvi.gov.tr/Service/KPSPublic.asmx";
-
-    int timeOut = 60000;
-
     public List<HeaderProperty> httpHeaders = new ArrayList<HeaderProperty>();
     public boolean enableLogging;
-
+    String url = "https://tckimlik.nvi.gov.tr/Service/KPSPublic.asmx";
+    int timeOut = 60000;
 
     public FLGKPSPublicSoap12() {
     }
+
 
     public FLGKPSPublicSoap12(String url) {
         this.url = url;
@@ -107,7 +99,6 @@ public class FLGKPSPublicSoap12 {
 
         return null;
     }
-
 
     public Boolean TCKimlikNoDogrula(final Long TCKimlikNo, final String Ad, final String Soyad, final Integer DogumYili) throws java.lang.Exception {
         com.easywsdl.exksoap2.ws_specifications.profile.WS_Profile __profile = new com.easywsdl.exksoap2.ws_specifications.profile.WS_Profile();
@@ -187,10 +178,16 @@ public class FLGKPSPublicSoap12 {
         }
     }
 
-
     protected java.lang.Exception convertToException(org.ksoap2.SoapFault fault, FLGExtendedSoapSerializationEnvelope envelope) {
         org.ksoap2.SoapFault newException = fault;
         return newException;
+    }
+
+
+    interface FLGIWcfMethod {
+        FLGExtendedSoapSerializationEnvelope CreateSoapEnvelope() throws java.lang.Exception;
+
+        java.lang.Object ProcessResult(FLGExtendedSoapSerializationEnvelope __envelope, java.lang.Object result) throws java.lang.Exception;
     }
 }
 

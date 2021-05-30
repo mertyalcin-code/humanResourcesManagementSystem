@@ -50,3 +50,6 @@ All professions listed 2021-05-28 21:48:12.468 logType: getAllProfessions
 Professions getted by id: Food Engineer 2021-05-28 22:57:26.591 logType: getByIdProfession
 All employees listed 2021-05-28 22:57:37.796 logType: getAllEmployees
 All employers listed 2021-05-28 22:58:14.601 logType: getAllEmployers
+Registration: string54@string.com string string 2021-05-30 19:06:04.948 logType: employeeRegistration
+Mail Activation: string54@string.com  2021-05-30 19:07:03.933 logType: mailActivation
+Found by Id: string2@gmail.com string string 2021-05-30 19:07:16.979 logType: getEmployeeById

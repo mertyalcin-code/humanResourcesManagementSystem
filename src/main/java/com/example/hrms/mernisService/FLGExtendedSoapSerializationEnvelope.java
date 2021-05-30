@@ -30,25 +30,12 @@ import java.util.Vector;
 
 //If you have a compilation error here then you have to add a reference to ExKsoap2.jar to your project (you can find it in Libs folder in the generated zip file)
 public class FLGExtendedSoapSerializationEnvelope extends com.easywsdl.exksoap2.serialization.ExSoapSerializationEnvelope {
-    static HashMap<java.lang.String, java.lang.Class> classNames = new HashMap<java.lang.String, java.lang.Class>();
-    public static String TAG = "easyWSDL";
-
     protected static final int QNAME_NAMESPACE = 0;
     private static final String TYPE_LABEL = "type";
-    public boolean enableLogging;
-
-    public static void setDateTimeConverter(FLGDateTimeConverter converter) {
-        if (converter == null) {
-            dateTimeConverter = new FLGStandardDateTimeConverter();
-        }
-        dateTimeConverter = converter;
-    }
-
-    public static FLGDateTimeConverter getDateTimeConverter() {
-        return dateTimeConverter;
-    }
-
+    public static String TAG = "easyWSDL";
+    static HashMap<java.lang.String, java.lang.Class> classNames = new HashMap<java.lang.String, java.lang.Class>();
     private static FLGDateTimeConverter dateTimeConverter = new FLGStandardDateTimeConverter();
+    public boolean enableLogging;
 
     public FLGExtendedSoapSerializationEnvelope() {
         this(SoapEnvelope.VER11);
@@ -62,6 +49,52 @@ public class FLGExtendedSoapSerializationEnvelope extends com.easywsdl.exksoap2.
         new MarshalFloat().register(this);
     }
 
+    public static FLGDateTimeConverter getDateTimeConverter() {
+        return dateTimeConverter;
+    }
+
+    public static void setDateTimeConverter(FLGDateTimeConverter converter) {
+        if (converter == null) {
+            dateTimeConverter = new FLGStandardDateTimeConverter();
+        }
+        dateTimeConverter = converter;
+    }
+
+    public static java.lang.Object getXSDType(java.lang.Object param) {
+        if (param == null) {
+            return null;
+        }
+        java.lang.Class obj = param.getClass();
+        if (obj.equals(java.lang.String.class)) {
+            return "string";
+        }
+        if (obj.equals(int.class) || obj.equals(java.lang.Integer.class)) {
+            return "int";
+        }
+        if (obj.equals(float.class) || obj.equals(java.lang.Float.class)) {
+            return "float";
+        }
+        if (obj.equals(double.class) || obj.equals(java.lang.Double.class)) {
+            return "double";
+        }
+        if (obj.equals(java.math.BigDecimal.class)) {
+            return "decimal";
+        }
+        if (obj.equals(short.class) || obj.equals(java.lang.Short.class)) {
+            return "short";
+        }
+        if (obj.equals(long.class) || obj.equals(java.lang.Long.class)) {
+            return "long";
+        }
+        if (obj.equals(boolean.class) || obj.equals(java.lang.Boolean.class)) {
+            return "boolean";
+        }
+        java.lang.String xmlName = FLGHelper.getKeyByValue(classNames, obj);
+        if (xmlName == null) {
+            return obj;
+        }
+        return xmlName;
+    }
 
     @Override
     protected void writeProperty(XmlSerializer writer, java.lang.Object obj, PropertyInfo type) throws IOException {
@@ -190,7 +223,6 @@ public class FLGExtendedSoapSerializationEnvelope extends com.easywsdl.exksoap2.
         }
     }
 
-
     public java.lang.Object getSpecificType(java.lang.Object obj) {
         if (obj == null) {
             return null;
@@ -211,42 +243,6 @@ public class FLGExtendedSoapSerializationEnvelope extends com.easywsdl.exksoap2.
         }
 
         return obj;
-    }
-
-    public static java.lang.Object getXSDType(java.lang.Object param) {
-        if (param == null) {
-            return null;
-        }
-        java.lang.Class obj = param.getClass();
-        if (obj.equals(java.lang.String.class)) {
-            return "string";
-        }
-        if (obj.equals(int.class) || obj.equals(java.lang.Integer.class)) {
-            return "int";
-        }
-        if (obj.equals(float.class) || obj.equals(java.lang.Float.class)) {
-            return "float";
-        }
-        if (obj.equals(double.class) || obj.equals(java.lang.Double.class)) {
-            return "double";
-        }
-        if (obj.equals(java.math.BigDecimal.class)) {
-            return "decimal";
-        }
-        if (obj.equals(short.class) || obj.equals(java.lang.Short.class)) {
-            return "short";
-        }
-        if (obj.equals(long.class) || obj.equals(java.lang.Long.class)) {
-            return "long";
-        }
-        if (obj.equals(boolean.class) || obj.equals(java.lang.Boolean.class)) {
-            return "boolean";
-        }
-        java.lang.String xmlName = FLGHelper.getKeyByValue(classNames, obj);
-        if (xmlName == null) {
-            return obj;
-        }
-        return xmlName;
     }
 }
 

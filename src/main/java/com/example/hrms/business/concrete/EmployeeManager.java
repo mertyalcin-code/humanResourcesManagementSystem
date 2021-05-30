@@ -13,14 +13,14 @@ import java.util.List;
 public class EmployeeManager implements EmployeeService {
 
     private final EmployeeDao employeeDao;
-    private final UserCheckManager userCheckManager;
+    private final ValidationManager userCheckManager;
     private final ActivationMailSender activationMailSender;
 
     private final UserManager userManager;
     private final Loggers loggers;
 
     @Autowired
-    public EmployeeManager(EmployeeDao employeeDao, UserCheckManager userCheckManager, ActivationMailSender activationMailSender,
+    public EmployeeManager(EmployeeDao employeeDao, ValidationManager userCheckManager, ActivationMailSender activationMailSender,
                            UserManager userManager, Loggers loggers) {
         this.employeeDao = employeeDao;
         this.userCheckManager = userCheckManager;
@@ -32,14 +32,15 @@ public class EmployeeManager implements EmployeeService {
 
     @Override
     public DataResult<List<Employee>> getAllEmployees() {
-        try {
-            loggers.log("All employees listed", "getAllEmployees");
-            return new SuccessDataResult<>(
-                    this.employeeDao.findAll(), employeeDao.findAll().size() + " people Listed");
+       List<Employee> employees =this.employeeDao.findAll();
+       if(employees.size()<1){
+           return new ErrorDataResult<>("Not found");
+       }else{
+           loggers.log("All employees listed", "getAllEmployees");
+           return new SuccessDataResult<>(employees, employeeDao.findAll().size() + " people Listed");
+       }
 
-        } catch (Exception exception) {
-            return new ErrorDataResult<>(exception.getMessage());
-        }
+
     }
 
     @Override

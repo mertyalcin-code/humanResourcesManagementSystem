@@ -1,6 +1,8 @@
 package com.example.hrms.business.abstracts;
 
-public interface CheckService {
+import java.time.LocalDate;
+
+public interface ValidationService {
 
 
     boolean checkMailRegular(String email);
@@ -26,6 +28,18 @@ public interface CheckService {
     boolean checkCompanyNameRegular(String companyName);
 
     boolean checkPhoneNumberCorrect(String phoneNumber);
+
+    boolean checkJobPositionValid(String jobPosition);
+
+    boolean checkJobDescriptionValid(String jobDescription);
+
+    boolean checkCityValid(String city);
+
+    boolean checkSalaryPerMonthValid(Double salary);
+
+    boolean checkQuanitityValid(int quantity);
+
+    boolean checkDeadlineValid(LocalDate deadline);
 
 
 }

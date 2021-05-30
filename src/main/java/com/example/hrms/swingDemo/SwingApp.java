@@ -15,6 +15,18 @@ public class SwingApp extends JFrame {
 
     }
 
+    public static void main(String[] args) {
+
+        var ctx = new SpringApplicationBuilder(SwingApp.class)
+                .headless(false).run(args);
+
+        EventQueue.invokeLater(() -> {
+
+            var ex = ctx.getBean(SwingApp.class);
+            ex.setVisible(true);
+        });
+    }
+
     private void initUI() {
 
         var quitButton = new JButton("Quit");
@@ -31,15 +43,6 @@ public class SwingApp extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
-
-    class GameOverActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(null, "Game Over");
-            System.exit(0);
-        }
-    }
-
 
     private void createLayout(JComponent... arg) {
 
@@ -58,15 +61,11 @@ public class SwingApp extends JFrame {
         );
     }
 
-    public static void main(String[] args) {
-
-        var ctx = new SpringApplicationBuilder(SwingApp.class)
-                .headless(false).run(args);
-
-        EventQueue.invokeLater(() -> {
-
-            var ex = ctx.getBean(SwingApp.class);
-            ex.setVisible(true);
-        });
+    class GameOverActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JOptionPane.showMessageDialog(null, "Game Over");
+            System.exit(0);
+        }
     }
 }

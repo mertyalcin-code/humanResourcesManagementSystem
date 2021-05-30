@@ -1,6 +1,5 @@
 package com.example.hrms.business.concrete;
 
-import com.example.hrms.business.abstracts.JobCheckService;
 import com.example.hrms.business.abstracts.JobService;
 import com.example.hrms.core.concrete.*;
 import com.example.hrms.dataAccess.abstracts.JobDao;
@@ -15,11 +14,13 @@ public class JobManager implements JobService {
 
 
     private final JobDao jobDao;
-    private final JobCheckService jobCheckService;
+    private final ValidationManager validationManager;
+    private final Loggers loggers;
 
-    public JobManager(JobDao jobDao, JobCheckService jobCheckService) {
+    public JobManager(JobDao jobDao, ValidationManager validationManager, Loggers loggers) {
         this.jobDao = jobDao;
-        this.jobCheckService = jobCheckService;
+        this.validationManager = validationManager;
+        this.loggers = loggers;
     }
 
     @Override
@@ -28,6 +29,7 @@ public class JobManager implements JobService {
         if (jobs.size() < 1) {
             return new ErrorDataResult<>("No job available");
         } else {
+
             return new SuccessDataResult<>(jobs, "Jobs listed");
         }
     }
@@ -56,22 +58,22 @@ public class JobManager implements JobService {
 
     @Override
     public Result jobAdd(Job job) {
-        if (!jobCheckService.checkCityValid(job.getCity())) {
+        if (!validationManager.checkCityValid(job.getCity())) {
             return new ErrorResult("City must be from the list");
         }
-        if (!jobCheckService.checkJobPositionValid(job.getPosition())) {
+        if (!validationManager.checkJobPositionValid(job.getPosition())) {
             return new ErrorResult("Job position must be from the list");
         }
-        if (!jobCheckService.checkJobDescriptionValid(job.getDescription())) {
+        if (!validationManager.checkJobDescriptionValid(job.getDescription())) {
             return new ErrorResult("Description must be between 50-500 characters.");
         }
-        if (!jobCheckService.checkSalaryPerMonthValid(job.getSalaryPerMonth())) {
+        if (!validationManager.checkSalaryPerMonthValid(job.getSalaryPerMonth())) {
             return new ErrorResult("Salary should be between 2000-100000 lira.");
         }
-        if (!jobCheckService.checkQuanitityValid(job.getQuantity())) {
+        if (!validationManager.checkQuanitityValid(job.getQuantity())) {
             return new ErrorResult("The number of open positions must be between a minimum of one and a maximum of 50.");
         }
-        if (!jobCheckService.checkDeadlineValid(job.getDeadline())) {
+        if (!validationManager.checkDeadlineValid(job.getDeadline())) {
             return new ErrorResult("Incorrect date");
         } else {
             jobDao.save(job);
