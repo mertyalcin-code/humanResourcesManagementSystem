@@ -2,8 +2,8 @@ package com.example.hrms.business.concrete;
 
 import com.example.hrms.business.abstracts.SystemUserService;
 import com.example.hrms.core.concrete.*;
-import com.example.hrms.dataAccess.abstracts.SystemUserDao;
-import com.example.hrms.entities.concrete.SystemUser;
+import com.example.hrms.core.dataAccess.SystemUserDao;
+import com.example.hrms.core.entities.SystemUser;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class SystemUserManager implements SystemUserService {
     }
 
     @Override
-    public DataResult<List<SystemUser>> getAllSysteUsers() {
+    public DataResult<List<SystemUser>> getAllSystemUsers() {
         List<SystemUser> systemUsers = this.systemUserDao.findAll();
 
 
@@ -38,23 +38,11 @@ public class SystemUserManager implements SystemUserService {
 
     @Override
     public Result systemUserRegistration(SystemUser systemUser) {
-        if (!userCheckManager.checkMailRegular(systemUser.getEmail())) {
-            return new ErrorResult("Your E-mail is incorrect");
-        }
-        if (userCheckManager.checkMailAlreadyExist(systemUser.getEmail())) {
-            return new ErrorResult("Previously registered with this email");
-        }
-        if (!userCheckManager.checkPasswordRegular(systemUser.getPassword())) {
-            return new ErrorResult("Your password is incorrect");
-        }
-        if (!userCheckManager.checkControlPasswordSame(systemUser.getPassword(), systemUser.getControlPassword())) {
-            return new ErrorResult("Your passwords do not match");
-        } else {
-            systemUserDao.save(systemUser);
-            loggers.log("System user registration: " + systemUser.getEmail() + " " + systemUser.getPosition(),
-                    "systemUsersRegistration");
-            return new SuccessResult("Registered: " + systemUser.getEmail());
-        }
+        systemUserDao.save(systemUser);
+        loggers.log("System user registration: " + systemUser.getEmail() + " " + systemUser.getPosition(),
+                "systemUsersRegistration");
+        return new SuccessResult("Registered: " + systemUser.getEmail());
+
 
     }
 

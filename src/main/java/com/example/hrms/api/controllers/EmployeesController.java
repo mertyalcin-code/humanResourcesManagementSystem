@@ -2,12 +2,21 @@ package com.example.hrms.api.controllers;
 
 import com.example.hrms.business.abstracts.EmployeeService;
 import com.example.hrms.core.concrete.DataResult;
+import com.example.hrms.core.concrete.ErrorDataResult;
 import com.example.hrms.core.concrete.Result;
-import com.example.hrms.entities.concrete.Employee;
+import com.example.hrms.core.entities.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -26,8 +35,8 @@ public class EmployeesController {
     }
 
     @PostMapping("/employeeRegistration")
-    public Result employeeRegistration(@RequestBody Employee employee) {
-        return employeeService.employeeRegistration(employee);
+    public ResponseEntity<?> employeeRegistration(@Valid @RequestBody Employee employee) {
+        return ResponseEntity.ok(employeeService.employeeRegistration(employee));
     }
 
     @DeleteMapping("/employeeDelete/{id}")
@@ -53,4 +62,26 @@ public class EmployeesController {
         return employeeService.getEmployeeByEmailAndNationaliyId(email, nationalityId);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDataResult<Object> handleValidationException(MethodArgumentNotValidException exceptions) {
+        Map<String, String> validationErrors = new HashMap<String, String>();
+        for (FieldError fieldError : exceptions.getBindingResult().getFieldErrors()) {
+            validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+        ErrorDataResult<Object> errors = new ErrorDataResult<Object>(validationErrors, "Doğrulama hataları");
+
+        return errors;
+
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorDataResult<Object> handleValidationException2(DataIntegrityViolationException exceptions) {
+
+        ErrorDataResult<Object> errors = new ErrorDataResult<Object>(exceptions.getMessage(), "Doğrulama hataları");
+
+        return errors;
+
+    }
 }

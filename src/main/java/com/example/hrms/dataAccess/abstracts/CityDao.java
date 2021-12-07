@@ -1,6 +1,6 @@
 package com.example.hrms.dataAccess.abstracts;
 
-import com.example.hrms.entities.concrete.City;
+import com.example.hrms.entities.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CityDao extends JpaRepository<City, Integer> {

@@ -2,7 +2,7 @@ package com.example.hrms.business.abstracts;
 
 import com.example.hrms.core.concrete.DataResult;
 import com.example.hrms.core.concrete.Result;
-import com.example.hrms.entities.concrete.Employer;
+import com.example.hrms.core.entities.Employer;
 
 import java.util.List;
 

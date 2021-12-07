@@ -1,12 +1,14 @@
-package com.example.hrms.entities.concrete;
+package com.example.hrms.entities;
 
 
-import com.example.hrms.entities.abstracts.User;
+import com.example.hrms.core.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 
@@ -20,23 +22,31 @@ public class ActivationCode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "activation_code_id")
-    int activationCodeId;
+    private int activationCodeId;
 
     @OneToOne
-    @JoinColumn(name="user_id", foreignKey =@ForeignKey(name="mail_activation_users_id_fk") )
-    User user;
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "mail_activation_users_id_fk"))
+    private User user;
 
     @Column(name = "send_date")
-    Timestamp sendDate;
+    @NotEmpty
+    @NotNull
+    private Timestamp sendDate;
 
     @Column(name = "activation_code")
-    String activationCode;
+    @NotEmpty
+    @NotNull
+    private String activationCode;
 
     @Column(name = "activation_date")
-    Timestamp activationDate;
+    @NotEmpty
+    @NotNull
+    private Timestamp activationDate;
 
     @Column(name = "is_active")
-    boolean isActive = false;
+    @NotEmpty
+    @NotNull
+    private boolean isActive = false;
 
     public ActivationCode(User user, Timestamp sendDate, String activationCode) {
         this.user = user;

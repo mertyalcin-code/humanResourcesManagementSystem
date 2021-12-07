@@ -1,9 +1,9 @@
 package com.example.hrms.business.concrete;
 
 import com.example.hrms.business.abstracts.Logger;
+import com.example.hrms.core.entities.User;
 import com.example.hrms.dataAccess.abstracts.LoggerDao;
-import com.example.hrms.entities.abstracts.User;
-import com.example.hrms.entities.concrete.Log;
+import com.example.hrms.entities.Log;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;

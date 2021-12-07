@@ -2,9 +2,9 @@ package com.example.hrms.business.concrete;
 
 import com.example.hrms.business.abstracts.EmployerService;
 import com.example.hrms.core.concrete.*;
+import com.example.hrms.core.dataAccess.EmployerDao;
+import com.example.hrms.core.entities.Employer;
 import com.example.hrms.dataAccess.abstracts.ActivationCodeDao;
-import com.example.hrms.dataAccess.abstracts.EmployerDao;
-import com.example.hrms.entities.concrete.Employer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,44 +32,21 @@ public class EmployerManager implements EmployerService {
     @Override
     public DataResult<List<Employer>> getAllEmployers() {
         List<Employer> employers = this.employerDao.findAll();
-        if(employers.size()<1){
+        if (employers.size() < 1) {
             return new ErrorDataResult<>("Not found");
-        }
-        else{
+        } else {
             loggers.log("All employers listed", "getAllEmployers");
             return new SuccessDataResult<>(employers, employerDao.findAll().size() + " people listed");
         }
-
-
 
 
     }
 
     @Override
     public Result employerRegistration(Employer employer) {
-        if (userCheckManager.checkMailAlreadyExist(employer.getEmail())) {
-            return new ErrorResult("Previously registered with this email");
-        }
-        if (!userCheckManager.checkMailRegular(employer.getEmail())) {
-            return new ErrorResult("Incorrect E-mail");
-        }
+
         if (!userCheckManager.checkEmailFromWebSite(employer.getEmail(), employer.getWebsite())) {
             return new ErrorResult("You must register with your corporate e-mail");
-        }
-        if (!userCheckManager.checkCompanyNameRegular(employer.getCompanyName())) {
-            return new ErrorResult("Your company name is incorrect");
-        }
-        if (!userCheckManager.checkPasswordRegular(employer.getPassword())) {
-            return new ErrorResult("Password is incorrect");
-        }
-        if (!userCheckManager.checkControlPasswordSame(employer.getPassword(), employer.getControlPassword())) {
-            return new ErrorResult("Your passwords do not match");
-        }
-        if (!userCheckManager.checkWebsiteRegular(employer.getWebsite())) {
-            return new ErrorResult("Corporate Website is incorrect");
-        }
-        if (!userCheckManager.checkPhoneNumberCorrect(employer.getPhone())) {
-            return new ErrorResult("Phone number is incorrect");
         } else {
             employerDao.save(employer);
             activationMailSender.SendActivationMail(employer);

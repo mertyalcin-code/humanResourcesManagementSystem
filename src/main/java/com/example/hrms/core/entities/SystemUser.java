@@ -1,6 +1,5 @@
-package com.example.hrms.entities.concrete;
+package com.example.hrms.core.entities;
 
-import com.example.hrms.entities.abstracts.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "system_users")
@@ -18,6 +19,8 @@ public class SystemUser extends User {
 
 
     @Column(name = "position")
+    @NotEmpty
+    @NotNull
     String position;
 
 }

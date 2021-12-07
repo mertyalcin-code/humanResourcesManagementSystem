@@ -1,6 +1,6 @@
-package com.example.hrms.dataAccess.abstracts;
+package com.example.hrms.core.dataAccess;
 
-import com.example.hrms.entities.concrete.Employer;
+import com.example.hrms.core.entities.Employer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EmployerDao extends JpaRepository<Employer, Integer> {

@@ -3,7 +3,7 @@ package com.example.hrms.business.concrete;
 import com.example.hrms.business.abstracts.JobService;
 import com.example.hrms.core.concrete.*;
 import com.example.hrms.dataAccess.abstracts.JobDao;
-import com.example.hrms.entities.concrete.Job;
+import com.example.hrms.entities.Job;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -64,18 +64,7 @@ public class JobManager implements JobService {
         if (!validationManager.checkJobPositionValid(job.getPosition())) {
             return new ErrorResult("Job position must be from the list");
         }
-        if (!validationManager.checkJobDescriptionValid(job.getDescription())) {
-            return new ErrorResult("Description must be between 50-500 characters.");
-        }
-        if (!validationManager.checkSalaryPerMonthValid(job.getSalaryPerMonth())) {
-            return new ErrorResult("Salary should be between 2000-100000 lira.");
-        }
-        if (!validationManager.checkQuanitityValid(job.getQuantity())) {
-            return new ErrorResult("The number of open positions must be between a minimum of one and a maximum of 50.");
-        }
-        if (!validationManager.checkDeadlineValid(job.getDeadline())) {
-            return new ErrorResult("Incorrect date");
-        } else {
+         else {
             jobDao.save(job);
             return new SuccessResult("Job added to system");
         }

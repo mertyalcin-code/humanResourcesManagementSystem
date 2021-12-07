@@ -3,7 +3,7 @@ package com.example.hrms.business.concrete;
 import com.example.hrms.business.abstracts.ProfessionService;
 import com.example.hrms.core.concrete.*;
 import com.example.hrms.dataAccess.abstracts.ProfessionDao;
-import com.example.hrms.entities.concrete.Profession;
+import com.example.hrms.entities.Profession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

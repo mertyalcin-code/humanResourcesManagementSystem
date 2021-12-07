@@ -3,7 +3,7 @@ package com.example.hrms.api.controllers;
 import com.example.hrms.business.abstracts.UserService;
 import com.example.hrms.core.concrete.DataResult;
 import com.example.hrms.core.concrete.Result;
-import com.example.hrms.entities.abstracts.User;
+import com.example.hrms.core.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

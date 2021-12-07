@@ -3,7 +3,7 @@ package com.example.hrms.business.concrete;
 import com.example.hrms.business.abstracts.CityService;
 import com.example.hrms.core.concrete.*;
 import com.example.hrms.dataAccess.abstracts.CityDao;
-import com.example.hrms.entities.concrete.City;
+import com.example.hrms.entities.City;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 

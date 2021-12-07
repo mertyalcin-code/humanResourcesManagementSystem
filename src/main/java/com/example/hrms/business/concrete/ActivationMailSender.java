@@ -1,8 +1,8 @@
 package com.example.hrms.business.concrete;
 
+import com.example.hrms.core.entities.User;
 import com.example.hrms.dataAccess.abstracts.ActivationCodeDao;
-import com.example.hrms.entities.abstracts.User;
-import com.example.hrms.entities.concrete.ActivationCode;
+import com.example.hrms.entities.ActivationCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

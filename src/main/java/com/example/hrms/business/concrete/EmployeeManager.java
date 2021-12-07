@@ -2,8 +2,8 @@ package com.example.hrms.business.concrete;
 
 import com.example.hrms.business.abstracts.EmployeeService;
 import com.example.hrms.core.concrete.*;
-import com.example.hrms.dataAccess.abstracts.EmployeeDao;
-import com.example.hrms.entities.concrete.Employee;
+import com.example.hrms.core.dataAccess.EmployeeDao;
+import com.example.hrms.core.entities.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,46 +32,26 @@ public class EmployeeManager implements EmployeeService {
 
     @Override
     public DataResult<List<Employee>> getAllEmployees() {
-       List<Employee> employees =this.employeeDao.findAll();
-       if(employees.size()<1){
-           return new ErrorDataResult<>("Not found");
-       }else{
-           loggers.log("All employees listed", "getAllEmployees");
-           return new SuccessDataResult<>(employees, employeeDao.findAll().size() + " people Listed");
-       }
+        List<Employee> employees = this.employeeDao.findAll();
+        if (employees.size() < 1) {
+            return new ErrorDataResult<>("Not found");
+        } else {
+            loggers.log("All employees listed", "getAllEmployees");
+            return new SuccessDataResult<>(employees, employeeDao.findAll().size() + " people Listed");
+        }
 
 
     }
 
     @Override
     public Result employeeRegistration(Employee employee) {
-        if (!userCheckManager.checkMailRegular(employee.getEmail())) {
-            return new ErrorResult("Incorrect E-mail");
-        }
-        if (userCheckManager.checkMailAlreadyExist(employee.getEmail())) {
-            return new ErrorResult("Previously registered with this email");
-        }
+
         if (!userCheckManager.checkNationalityIdValid(
                 employee.getNationalityId(),
                 employee.getFirstName(),
                 employee.getLastName(),
                 employee.getBirthYear())) {
             return new ErrorResult("Your Nationality ID number is incorrect");
-        }
-        if (!userCheckManager.checkFirstNameRegular(employee.getFirstName())) {
-            return new ErrorResult("Your First name is Incorrect");
-        }
-        if (!userCheckManager.checkLastNameRegular(employee.getLastName())) {
-            return new ErrorResult("Your Last Name is Incorrect");
-        }
-        if (userCheckManager.checkNationalityIdAlreadyExist((employee.getNationalityId()))) {
-            return new ErrorResult("Previously registered with this Nationality ID number");
-        }
-        if (!userCheckManager.checkPasswordRegular(employee.getPassword())) {
-            return new ErrorResult("Your password is incorrect");
-        }
-        if (!userCheckManager.checkControlPasswordSame(employee.getPassword(), employee.getControlPassword())) {
-            return new ErrorResult("Your passwords do not match");
         } else {
             employeeDao.save(employee);
 
